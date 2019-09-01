@@ -1,0 +1,2 @@
+# nbot
+dotnet core bots
