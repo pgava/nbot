@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\nbot.samples\nbot.samples.csproj" />
+    <ProjectReference Include="..\nbot.manager.test\nbot.manager.test.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
