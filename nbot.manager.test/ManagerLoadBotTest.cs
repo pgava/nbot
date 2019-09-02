@@ -9,7 +9,7 @@ using Xunit;
 
 namespace nbot.manager.test
 {
-    public class ManagerTest
+    public class ManagerLoadBotTest
     {
         [Fact]
         public void Can_Load_Bot_From_Assembly()
@@ -24,9 +24,6 @@ namespace nbot.manager.test
             var task = CreateTask(assemblyTask);
 
             task.Run();
-
-            //Parallel.For(0, 4, (i) => { task.Run(); });
-            //ThreadPool.QueueUserWorkItem(task.Run);
 
         }
 
