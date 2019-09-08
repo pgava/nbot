@@ -5,9 +5,9 @@ namespace nbot.referee
 {
     public interface IReferee
     {
-        void AddBot(INBot b);
-        void AddBots(List<INBot> bots);
-        IEnumerable<INBot> GetBots();
-        IEnumerable<INBot> GetRndBots();
+        void AddBot(IBot b);
+        void AddBots(List<IBot> bots);
+        IEnumerable<IBot> GetBots();
+        IEnumerable<IBot> GetRndBots();
     }
 }

@@ -6,7 +6,7 @@ namespace nbot.referee
 {
     public class Referee : IReferee
     {
-        private IList<INBot> _bots = new List<INBot>();
+        private IList<IBot> _bots = new List<IBot>();
 
         private IRandomBotsProvider RandomBotsProvider { get; }
 
@@ -20,7 +20,7 @@ namespace nbot.referee
 
             RandomBotsProvider = randomBotsProvider;
         }
-        public void AddBot(INBot b)
+        public void AddBot(IBot b)
         {
             if (b == null)
             {
@@ -30,7 +30,7 @@ namespace nbot.referee
             _bots.Add(b);
         }
 
-        public void AddBots(List<INBot> bots)
+        public void AddBots(List<IBot> bots)
         {
             if (bots == null)
             {
@@ -40,12 +40,12 @@ namespace nbot.referee
             bots.ForEach(b => AddBot(b));
         }
 
-        public IEnumerable<INBot> GetBots()
+        public IEnumerable<IBot> GetBots()
         {
             return _bots;
         }
 
-        public IEnumerable<INBot> GetRndBots()
+        public IEnumerable<IBot> GetRndBots()
         {
             if (_bots.Count < 2)
             {

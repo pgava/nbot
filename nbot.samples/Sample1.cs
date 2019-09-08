@@ -3,13 +3,13 @@ using nbot.contracts;
 
 namespace nbot.samples
 {
-    public class Sample1 : INBot
+    public class Sample1 : Bot
     {
         public string Name => "Sampe 1";
 
-        public void Run() 
+        public override void Run()
         {
-            Console.WriteLine("This is Sample1");
+            Console.WriteLine($"This is {Name}");
         }
     }
 }

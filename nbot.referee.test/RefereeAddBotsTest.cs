@@ -11,7 +11,7 @@ namespace nbot.referee.test
 
         [Fact]
         public void Can_Add_Bot()
-        {            
+        {
             var referee = new Referee(randomProvider);
             var bot = new TesBot1();
 
@@ -28,7 +28,7 @@ namespace nbot.referee.test
             var referee = new Referee(randomProvider);
             var bot = new TesBot1();
 
-            referee.AddBots(new List<INBot> {bot, bot, bot});
+            referee.AddBots(new List<IBot> { bot, bot, bot });
 
             var bots = referee.GetBots();
 
@@ -36,7 +36,7 @@ namespace nbot.referee.test
         }
     }
 
-    public class TesBot1 : INBot
+    public class TesBot1 : IBot
     {
         public string Name => "TestBot 1";
 
@@ -46,7 +46,7 @@ namespace nbot.referee.test
         }
     }
 
-    public class TesBot2 : INBot
+    public class TesBot2 : IBot
     {
         public string Name => "TestBot 2";
 
@@ -58,7 +58,7 @@ namespace nbot.referee.test
 
     public class RandomBotsProviderMock : IRandomBotsProvider
     {
-        public IEnumerable<INBot> RandomizeList(IList<INBot> items)
+        public IEnumerable<IBot> RandomizeList(IList<IBot> items)
         {
             throw new System.NotImplementedException();
         }

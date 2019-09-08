@@ -27,17 +27,17 @@ namespace nbot.referee.test
 
         }
 
-        static private INBot CreateTask(Assembly assembly)
+        static private IBot CreateTask(Assembly assembly)
         {
             int count = 0;
-            IList<INBot> tasks = new List<INBot>();
+            IList<IBot> tasks = new List<IBot>();
 
-            // Find all objects of type INBot
+            // Find all objects of type IBot
             foreach (Type type in assembly.GetTypes())
             {
-                if (typeof(INBot).IsAssignableFrom(type))
+                if (typeof(IBot).IsAssignableFrom(type))
                 {
-                    INBot result = Activator.CreateInstance(type) as INBot;
+                    IBot result = Activator.CreateInstance(type) as IBot;
                     if (result != null)
                     {
                         count++;
@@ -48,20 +48,20 @@ namespace nbot.referee.test
 
             // Perform sanity check on assembly
             // ...
-            
-            // Can have only one INBot
+
+            // Can have only one IBot
             if (count == 0)
             {
                 string availableTypes = string.Join(",", assembly.GetTypes().Select(t => t.FullName));
                 throw new ApplicationException(
-                    $"Can't find any type which implements INBot in {assembly} from {assembly.Location}.\n" +
+                    $"Can't find any type which implements IBot in {assembly} from {assembly.Location}.\n" +
                     $"Available types: {availableTypes}");
             }
             else if (count > 1)
             {
                 string availableTypes = string.Join(",", assembly.GetTypes().Select(t => t.FullName));
                 throw new ApplicationException(
-                    $"Too many types which implements INBot in {assembly} from {assembly.Location}.\n" +
+                    $"Too many types which implements IBot in {assembly} from {assembly.Location}.\n" +
                     $"Available types: {availableTypes}");
             }
 
