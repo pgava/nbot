@@ -9,7 +9,15 @@ namespace nbot.samples
 
         public override void Run()
         {
-            Console.WriteLine($"This is {Name}");
+            // run forever 
+            //while (true)
+            //{
+                Console.WriteLine($"This is {Name}");
+                // ...
+                // do your logic here,
+                // then when done end the turn
+                Execute();
+            //}
         }
     }
 }
