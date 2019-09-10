@@ -7,17 +7,9 @@ namespace nbot.samples
     {
         public string Name => "Sampe 1";
 
-        public override void Run()
+        public override void PlayTurn()
         {
-            // run forever 
-            //while (true)
-            //{
-                Console.WriteLine($"This is {Name}");
-                // ...
-                // do your logic here,
-                // then when done end the turn
-                Execute();
-            //}
+            Console.WriteLine($"This is {Name}");
         }
     }
 }

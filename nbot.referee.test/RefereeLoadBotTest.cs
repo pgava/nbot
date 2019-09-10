@@ -23,7 +23,7 @@ namespace nbot.referee.test
 
             var task = CreateTask(assemblyTask);
 
-            task.Run();
+            task.PlayTurn();
 
         }
 

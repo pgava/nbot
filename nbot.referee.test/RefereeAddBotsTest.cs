@@ -35,32 +35,4 @@ namespace nbot.referee.test
             Assert.True(bots.Count() == 3);
         }
     }
-
-    public class TesBot1 : IBot
-    {
-        public string Name => "TestBot 1";
-
-        public void Run()
-        {
-            throw new System.NotImplementedException();
-        }
-    }
-
-    public class TesBot2 : IBot
-    {
-        public string Name => "TestBot 2";
-
-        public void Run()
-        {
-            throw new System.NotImplementedException();
-        }
-    }
-
-    public class RandomBotsProviderMock : IRandomBotsProvider
-    {
-        public IEnumerable<IBot> RandomizeList(IList<IBot> items)
-        {
-            throw new System.NotImplementedException();
-        }
-    }
 }

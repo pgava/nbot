@@ -2,6 +2,7 @@ namespace nbot.contracts
 {
     public interface IBot
     {
-        void Run();
+        void PlayTurn();
+        void EndTurn();
     }
 }
