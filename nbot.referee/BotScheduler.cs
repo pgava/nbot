@@ -4,7 +4,7 @@ namespace nbot.referee
 {
     public class BotScheduler : IBotScheduler
     {
-        private readonly SemaphoreSlim sem = new SemaphoreSlim(1, 1);
+        private readonly SemaphoreSlim sem = new SemaphoreSlim(0, 1);
 
         public void WaitForNextTurn()
         {

@@ -33,7 +33,7 @@ namespace nbot.referee
 
         public bool IsRunning => status == BotStatus.Running;
         public bool IsWaiting => status == BotStatus.Waiting;
-        public void Execute()
+        public void Turn()
         {
             status = BotStatus.Running;
 
