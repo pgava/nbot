@@ -51,5 +51,10 @@ namespace nbot.referee
             botScheduler.WaitForNextTurn();
         }
 
+        public void Wakeup()
+        {
+            status = BotStatus.Running;
+            botScheduler.Wakeup();
+        }
     }
 }

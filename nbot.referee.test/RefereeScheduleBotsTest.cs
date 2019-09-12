@@ -10,6 +10,23 @@ namespace nbot.referee.test
         [Fact]
         public void Should_Be_Able_To_Stop_Bot_After_Turn()
         {
+            BotController botController = StartBot();
+
+            Assert.True(botController.IsWaiting);
+        }
+
+        [Fact]
+        public void Should_Be_Able_To_Start_Bot_For_Next_Turn()
+        {
+            BotController botController = StartBot();
+
+            botController.Wakeup();
+
+            Assert.True(botController.IsRunning);
+        }
+
+        private static BotController StartBot()
+        {
             var botScheduler = new BotScheduler();
             var bots = TestHelper.LoadBots(TestHelper.GetAssembly());
 
@@ -18,16 +35,11 @@ namespace nbot.referee.test
             Task doBot = new Task(() => botController.Turn());
             doBot.Start();
 
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
 
-            Assert.True(botController.IsWaiting);
+            return botController;
         }
 
-        [Fact]
-        public void Should_Be_Able_To_Start_Bot_For_Next_Turn()
-        {
-
-        }
     }
 
 }

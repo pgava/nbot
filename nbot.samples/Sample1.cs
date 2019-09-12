@@ -9,6 +9,7 @@ namespace nbot.samples
 
         public override void PlayTurn()
         {
+            System.Threading.Thread.Sleep(200);
             Console.WriteLine($"This is {Name}");
         }
     }
