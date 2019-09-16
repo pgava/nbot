@@ -1,32 +1,56 @@
 ﻿using System;
-using System.Collections.Generic;
-using nbot.contracts;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace nbot.referee
 {
     public class Referee : IReferee
     {
-        public IBotControllerCollection Bots { get; }
+        private readonly IBotControllerCollection bots;
+        private readonly ITimerProvider timerProvider;
+        private readonly ITaskManagerProvider taskManagerProvider;
 
-        public Referee(IBotControllerCollection bots)
+        public Referee(IBotControllerCollection bots, ITimerProvider timerProvider, ITaskManagerProvider taskManagerProvider)
         {
             if (bots is null)
             {
                 throw new ArgumentNullException(nameof(bots));
             }
 
-            Bots = bots;
+            if (timerProvider is null)
+            {
+                throw new ArgumentNullException(nameof(timerProvider));
+            }
+
+            if (taskManagerProvider is null)
+            {
+                throw new ArgumentNullException(nameof(taskManagerProvider));
+            }
+
+            this.bots = bots;
+            this.timerProvider = timerProvider;
+            this.taskManagerProvider = taskManagerProvider;
         }
-        
+
         public void PlayMatch()
         {
+            StartBots();
+
             while (IsMatchActive())
             {
-                StartBots();
+                WakeupBots();
 
                 WaitEndTurn();
 
                 ProcessTurn();
+            }
+        }
+
+        private void WakeupBots()
+        {
+            foreach (var b in bots.GetRndBots())
+            {
+                b.Wakeup();
             }
         }
 
@@ -37,17 +61,17 @@ namespace nbot.referee
 
         private void WaitEndTurn()
         {
-            throw new NotImplementedException();
+            timerProvider.WaitForTimer();
         }
 
         private void StartBots()
         {
-            throw new NotImplementedException();
+            taskManagerProvider.StartBots(bots.GetRndBots());
         }
 
         private bool IsMatchActive()
         {
-            throw new NotImplementedException();
+            return bots.GetBots().Count(b => b.IsAlive) > 1;
         }
     }
 }

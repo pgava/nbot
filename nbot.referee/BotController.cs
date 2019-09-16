@@ -7,7 +7,8 @@ namespace nbot.referee
     {
         Initializing,
         Waiting,
-        Running
+        Running,
+        Terminated
     }
 
     public class BotController : IBotController
@@ -34,6 +35,7 @@ namespace nbot.referee
 
         public bool IsRunning => status == BotStatus.Running;
         public bool IsWaiting => status == BotStatus.Waiting;
+        public bool IsAlive => status != BotStatus.Terminated;
         public void Turn()
         {
             status = BotStatus.Running;

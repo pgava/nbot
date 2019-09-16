@@ -4,6 +4,7 @@ namespace nbot.referee
     {
         bool IsRunning { get; }
         bool IsWaiting { get; }
+        bool IsAlive { get; }
 
         void Turn();
         void Wakeup();
