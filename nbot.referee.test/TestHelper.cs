@@ -71,29 +71,32 @@ namespace nbot.referee.test
         }
     }
 
-    public class TesBot1 : Bot
+    public class BaseBot : IBotController
     {
-        public string Name => "TestBot 1";
-
-        override public void PlayTurn()
+        public BaseBot(string name)
         {
-            throw new System.NotImplementedException();
+            Name = name;
         }
-    }
+        public bool IsRunning => throw new NotImplementedException();
 
-    public class TesBot2 : Bot
-    {
-        public string Name => "TestBot 2";
+        public bool IsWaiting => throw new NotImplementedException();
 
-        override public void PlayTurn()
+        public string Name { get; }
+
+        public void Turn()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
+        }
+
+        public void Wakeup()
+        {
+            throw new NotImplementedException();
         }
     }
 
     public class RandomBotsProviderMock : IRandomBotsProvider
     {
-        public IEnumerable<IBot> RandomizeList(IList<IBot> items)
+        public IEnumerable<IBotController> RandomizeList(IList<IBotController> items)
         {
             throw new System.NotImplementedException();
         }

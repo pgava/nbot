@@ -12,27 +12,27 @@ namespace nbot.referee.test
         [Fact]
         public void Can_Add_Bot()
         {
-            var referee = new Referee(randomProvider);
-            var bot = new TesBot1();
+            var botCollection = new BotControllerCollection(randomProvider);
+            var bot = new BaseBot("b1");
 
-            referee.AddBot(bot);
+            botCollection.AddBot(bot);
 
-            var bots = referee.GetBots();
+            var bots = botCollection.GetBots();
 
-            Assert.True(bots.Count() == 1);
+            Assert.True(botCollection.GetBots().Count() == 1);
         }
 
         [Fact]
         public void Can_Add_List_Of_Bots()
         {
-            var referee = new Referee(randomProvider);
-            var bot = new TesBot1();
+            var botCollection = new BotControllerCollection(randomProvider);
+            var bot = new BaseBot("b1");
 
-            referee.AddBots(new List<IBot> { bot, bot, bot });
+            botCollection.AddBots(new List<IBotController> { bot, bot, bot });
 
-            var bots = referee.GetBots();
+            var bots = botCollection.GetBots();
 
-            Assert.True(bots.Count() == 3);
+            Assert.True(botCollection.GetBots().Count() == 3);
         }
     }
 }

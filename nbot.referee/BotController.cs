@@ -9,7 +9,8 @@ namespace nbot.referee
         Waiting,
         Running
     }
-    public class BotController
+
+    public class BotController : IBotController
     {
         private readonly IBot bot;
         private readonly IBotScheduler botScheduler;

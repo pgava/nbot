@@ -6,53 +6,48 @@ namespace nbot.referee
 {
     public class Referee : IReferee
     {
-        private IList<IBot> bots = new List<IBot>();
+        public IBotControllerCollection Bots { get; }
 
-        private IRandomBotsProvider RandomBotsProvider { get; }
-
-
-        public Referee(IRandomBotsProvider randomBotsProvider)
+        public Referee(IBotControllerCollection bots)
         {
-            if (randomBotsProvider == null)
+            if (bots is null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(bots));
             }
 
-            RandomBotsProvider = randomBotsProvider;
+            Bots = bots;
         }
-        public void AddBot(IBot b)
+        
+        public void PlayMatch()
         {
-            if (b == null)
+            while (IsMatchActive())
             {
-                throw new ArgumentNullException();
-            }
+                StartBots();
 
-            bots.Add(b);
+                WaitEndTurn();
+
+                ProcessTurn();
+            }
         }
 
-        public void AddBots(List<IBot> bots)
+        private void ProcessTurn()
         {
-            if (bots == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            bots.ForEach(b => AddBot(b));
+            throw new NotImplementedException();
         }
 
-        public IEnumerable<IBot> GetBots()
+        private void WaitEndTurn()
         {
-            return bots;
+            throw new NotImplementedException();
         }
 
-        public IEnumerable<IBot> GetRndBots()
+        private void StartBots()
         {
-            if (bots.Count < 2)
-            {
-                return bots;
-            }
+            throw new NotImplementedException();
+        }
 
-            return RandomBotsProvider.RandomizeList(bots);
+        private bool IsMatchActive()
+        {
+            throw new NotImplementedException();
         }
     }
 }

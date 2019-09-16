@@ -6,9 +6,9 @@ namespace nbot.referee
 {
     public class RandomBotsProvider : IRandomBotsProvider
     {
-        public IEnumerable<IBot> RandomizeList(IList<IBot> items)
+        public IEnumerable<IBotController> RandomizeList(IList<IBotController> items)
         {
-            var rndItems = new List<IBot>();
+            var rndItems = new List<IBotController>();
             Random rnd = new Random();
 
             while (items.Count > 0)

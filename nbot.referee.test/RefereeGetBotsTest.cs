@@ -10,13 +10,13 @@ namespace nbot.referee.test
         [Fact]
         public void Can_Get_Bots_In_Random_Order()
         {
-            var referee = new Referee(new RandomBotsProvider());
-            var bot1 = new TesBot1();
-            var bot2 = new TesBot2();
+            var botCollection = new BotControllerCollection(new RandomBotsProvider());
+            var bot1 = new BaseBot("b1");
+            var bot2 = new BaseBot("b2");
 
-            referee.AddBots(new List<IBot> { bot1, bot1, bot2, bot2 });
+            botCollection.AddBots(new List<IBotController> { bot1, bot1, bot2, bot2 });
 
-            var bots = referee.GetRndBots();
+            var bots = botCollection.GetRndBots();
 
             Assert.True(bots.Count() == 4);
             Assert.False(bots.First() == bot1 &&

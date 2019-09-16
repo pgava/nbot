@@ -5,6 +5,6 @@ namespace nbot.referee
 {
     public interface IRandomBotsProvider
     {
-        IEnumerable<IBot> RandomizeList(IList<IBot> items);
+        IEnumerable<IBotController> RandomizeList(IList<IBotController> items);
     }
 }
