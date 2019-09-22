@@ -9,8 +9,10 @@ namespace nbot.referee
         private readonly IBotControllerCollection bots;
         private readonly ITimerProvider timerProvider;
         private readonly ITaskManagerProvider taskManagerProvider;
+        private readonly IActionProvider actionProvider;
+        private readonly ISyncDataProvider syncDataProvider;
 
-        public Referee(IBotControllerCollection bots, ITimerProvider timerProvider, ITaskManagerProvider taskManagerProvider)
+        public Referee(IBotControllerCollection bots, ITimerProvider timerProvider, ITaskManagerProvider taskManagerProvider, IActionProvider actionProvider, ISyncDataProvider syncDataProvider)
         {
             if (bots is null)
             {
@@ -27,9 +29,21 @@ namespace nbot.referee
                 throw new ArgumentNullException(nameof(taskManagerProvider));
             }
 
+            if (actionProvider is null)
+            {
+                throw new ArgumentNullException(nameof(actionProvider));
+            }
+
+            if (syncDataProvider is null)
+            {
+                throw new ArgumentNullException(nameof(syncDataProvider));
+            }
+
             this.bots = bots;
             this.timerProvider = timerProvider;
             this.taskManagerProvider = taskManagerProvider;
+            this.actionProvider = actionProvider;
+            this.syncDataProvider = syncDataProvider;
         }
 
         public void PlayMatch()
@@ -56,7 +70,8 @@ namespace nbot.referee
 
         private void ProcessTurn()
         {
-            throw new NotImplementedException();
+            var moves = actionProvider.ProcessNextMove(bots.GetRndBots());
+            syncDataProvider.SyncMoves(moves);
         }
 
         private void WaitEndTurn()
