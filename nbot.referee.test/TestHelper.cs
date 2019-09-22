@@ -78,7 +78,6 @@ namespace nbot.referee.test
             Name = name;
         }
         public bool IsRunning => throw new NotImplementedException();
-
         public bool IsWaiting => throw new NotImplementedException();
         public bool IsAlive => throw new NotImplementedException();
 

@@ -2,6 +2,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Threading;
 using Xunit;
+using FluentAssertions;
 
 namespace nbot.referee.test
 {
@@ -12,7 +13,7 @@ namespace nbot.referee.test
         {
             BotController botController = StartBot();
 
-            Assert.True(botController.IsWaiting);
+            botController.IsWaiting.Should().BeTrue();
         }
 
         [Fact]
@@ -21,8 +22,8 @@ namespace nbot.referee.test
             BotController botController = StartBot();
 
             botController.Wakeup();
-
-            Assert.True(botController.IsRunning);
+            
+            botController.IsRunning.Should().BeTrue();
         }
 
         private static BotController StartBot()

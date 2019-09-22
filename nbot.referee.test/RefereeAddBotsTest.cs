@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using System.Linq;
-using nbot.contracts;
 using Xunit;
+using FluentAssertions;
 
 namespace nbot.referee.test
 {
@@ -19,7 +18,7 @@ namespace nbot.referee.test
 
             var bots = botCollection.GetBots();
 
-            Assert.True(botCollection.GetBots().Count() == 1);
+            bots.Should().HaveCount(1);
         }
 
         [Fact]
@@ -32,7 +31,7 @@ namespace nbot.referee.test
 
             var bots = botCollection.GetBots();
 
-            Assert.True(botCollection.GetBots().Count() == 3);
+            bots.Should().HaveCount(3);
         }
     }
 }
