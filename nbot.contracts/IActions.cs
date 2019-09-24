@@ -2,6 +2,9 @@ namespace nbot.contracts
 {
     public interface IActions
     {
-        void MoveAhead(int d);
+        void Ahead(decimal d);
+        void Back(decimal d);
+        void Right(decimal d);
+        void Left(decimal d);
     }
 }
