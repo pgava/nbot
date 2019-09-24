@@ -2,9 +2,9 @@ namespace nbot.contracts
 {
     public interface IActions
     {
-        void Ahead(decimal d);
-        void Back(decimal d);
-        void Right(decimal d);
-        void Left(decimal d);
+        void Ahead(double d);
+        void Back(double d);
+        void Right(double d);
+        void Left(double d);
     }
 }

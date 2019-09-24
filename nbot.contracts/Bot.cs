@@ -20,28 +20,28 @@ namespace nbot.contracts
             throw new NotImplementedException();
         }
 
-        public void Ahead(decimal d)
+        public void Ahead(double d)
         {
             ThrowIfParameterIsNull(actionsProvider);
 
             actionsProvider.Ahead(d);
         }
 
-        public void Back(decimal d)
+        public void Back(double d)
         {
             ThrowIfParameterIsNull(actionsProvider);
 
             actionsProvider.Back(d);
         }
 
-        public void Right(decimal d)
+        public void Right(double d)
         {
             ThrowIfParameterIsNull(actionsProvider);
 
             actionsProvider.Right(d);
         }
 
-        public void Left(decimal d)
+        public void Left(double d)
         {
             ThrowIfParameterIsNull(actionsProvider);
 
