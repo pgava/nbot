@@ -1,8 +1,8 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace nbot.referee
 {
-    public interface IActionProvider
+    public interface IMovesProvider
     {
         IEnumerable<IMove> ProcessNextMove(IEnumerable<IBotController> bots);
     }

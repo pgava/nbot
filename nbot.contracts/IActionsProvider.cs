@@ -1,6 +1,6 @@
 namespace nbot.contracts
 {
-    public interface IActions
+    public interface IActionsProvider
     {
         void Ahead(double d);
         void Back(double d);

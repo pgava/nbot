@@ -3,12 +3,12 @@ using System.Threading;
 
 namespace nbot.contracts
 {
-    public abstract class Bot : IBot, IActions
+    public abstract class Bot : IBot, IActionsProvider
     {
-        private IActions actionsProvider;
+        private IActionsProvider actionsProvider;
 
         // TODO: make sure only framework call this method
-        internal void SetActionsProvider(IActions actionProvider)
+        internal void SetActionsProvider(IActionsProvider actionProvider)
         {
             this.actionsProvider = actionProvider;
         }

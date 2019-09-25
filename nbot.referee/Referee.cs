@@ -9,10 +9,10 @@ namespace nbot.referee
         private readonly IBotControllerCollection bots;
         private readonly ITimerProvider timerProvider;
         private readonly ITaskManagerProvider taskManagerProvider;
-        private readonly IActionProvider actionProvider;
+        private readonly IMovesProvider actionProvider;
         private readonly ISyncDataProvider syncDataProvider;
 
-        public Referee(IBotControllerCollection bots, ITimerProvider timerProvider, ITaskManagerProvider taskManagerProvider, IActionProvider actionProvider, ISyncDataProvider syncDataProvider)
+        public Referee(IBotControllerCollection bots, ITimerProvider timerProvider, ITaskManagerProvider taskManagerProvider, IMovesProvider actionProvider, ISyncDataProvider syncDataProvider)
         {
             if (bots is null)
             {
