@@ -22,7 +22,7 @@ namespace nbot.referee.test
 
             var plays = new List<Play>();
 
-            for (int turn = 0; turn < 10; turn++)
+            for (int turn = 0; turn < 50; turn++)
             {
                 positionProvider.CalculateNextPosition();
                 plays.Add(new Play
@@ -48,7 +48,8 @@ namespace nbot.referee.test
             serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
             var jsonData = JsonConvert.SerializeObject(plays, serializerSettings);
-            File.WriteAllText("json-data.txt", jsonData);
+            var dumpJsData = $"let turns = {jsonData};";
+            File.WriteAllText("/home/paolo/Dev/robo/nbot/nbot.ui.test/d3data.js", dumpJsData);
         }
     }
 

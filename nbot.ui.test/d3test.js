@@ -1,5 +1,6 @@
+
 let d3Helper = (function () {
-    let turns = [{"turn":0,"actors":[{"type":"bot","id":"bot1","pos":{"x":205.0,"y":200.0}}]},{"turn":1,"actors":[{"type":"bot","id":"bot1","pos":{"x":220.0,"y":200.0}}]},{"turn":2,"actors":[{"type":"bot","id":"bot1","pos":{"x":245.0,"y":199.0}}]},{"turn":3,"actors":[{"type":"bot","id":"bot1","pos":{"x":280.0,"y":198.0}}]},{"turn":4,"actors":[{"type":"bot","id":"bot1","pos":{"x":325.0,"y":195.0}}]},{"turn":5,"actors":[{"type":"bot","id":"bot1","pos":{"x":380.0,"y":191.0}}]},{"turn":6,"actors":[{"type":"bot","id":"bot1","pos":{"x":444.0,"y":186.0}}]},{"turn":7,"actors":[{"type":"bot","id":"bot1","pos":{"x":519.0,"y":178.0}}]},{"turn":8,"actors":[{"type":"bot","id":"bot1","pos":{"x":603.0,"y":168.0}}]},{"turn":9,"actors":[{"type":"bot","id":"bot1","pos":{"x":698.0,"y":155.0}}]}];
+    //let turns = [{ "turn": 0, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 200.0, "y": 200.0 } }] }, { "turn": 1, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 202.0, "y": 200.0 } }] }, { "turn": 2, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 204.0, "y": 200.0 } }] }, { "turn": 3, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 206.0, "y": 200.0 } }] }, { "turn": 4, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 210.0, "y": 199.0 } }] }, { "turn": 5, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 214.0, "y": 198.0 } }] }, { "turn": 6, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 219.0, "y": 197.0 } }] }, { "turn": 7, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 225.0, "y": 194.0 } }] }, { "turn": 8, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 231.0, "y": 191.0 } }] }, { "turn": 9, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 237.0, "y": 187.0 } }] }, { "turn": 10, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 243.0, "y": 181.0 } }] }, { "turn": 11, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 248.0, "y": 174.0 } }] }, { "turn": 12, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 253.0, "y": 165.0 } }] }, { "turn": 13, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 256.0, "y": 154.0 } }] }, { "turn": 14, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 258.0, "y": 143.0 } }] }, { "turn": 15, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 256.0, "y": 155.0 } }] }, { "turn": 16, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 252.0, "y": 168.0 } }] }, { "turn": 17, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 244.0, "y": 179.0 } }] }, { "turn": 18, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 234.0, "y": 190.0 } }] }, { "turn": 19, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 220.0, "y": 197.0 } }] }];
     let turns2 = [
         {
             "turn": 1,
@@ -147,6 +148,9 @@ let d3Helper = (function () {
             .attr("y", function (d) {
                 return d.pos.y;
             })
+            .style("opacity", .2)
+            .style("stroke", "red")
+            .style("fill", "green")
             .attr("width", 20)
             .attr("height", 20);
     }
@@ -161,6 +165,7 @@ let d3Helper = (function () {
 
         let moveBots = container.selectAll(query)
             .transition()
+            .duration(1000)
             .attr("x", function (d, i) {
                 return actor.pos.x;
             })
@@ -176,7 +181,7 @@ let d3Helper = (function () {
 
     return {
         init: init,
-        draw: function () {
+        draw: function (turns) {
             draw(turns);
         }
     }

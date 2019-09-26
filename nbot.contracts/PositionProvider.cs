@@ -4,8 +4,9 @@ namespace nbot.contracts
 {
     public class PositionProvider : IPositionProvider
     {
-        private const double MAX_ACCELERATION = 0.4D;
-        private const double TIME_SLOT = 5D;
+        private const double MAX_ACCELERATION = 0.2D;
+        private const double TIME_SLOT = 2D;
+        private const double MAX_LINEAR_SPEED = 20;
         private readonly IScreenProvider screenProvider;
         private double currentLinearSpeed = 0;
         private double currentAngularSpeed = 0;
@@ -58,12 +59,16 @@ namespace nbot.contracts
                 distance *= -1;
             }
 
+            currentLinearSpeed = 500;
+            distance = 50;
+
             currentDirection += CalculateDirection(Math.Abs(distance));
 
-            currentX += screenProvider.HorizontalDirection(distance * Math.Cos(DegreeToRadian(currentDirection)), currentDirection);
-            currentY += screenProvider.VeriticalDirection(distance * Math.Sin(DegreeToRadian(currentDirection)), currentDirection);
+            currentX = 200 + screenProvider.HorizontalDirection(distance * Math.Cos(DegreeToRadian(currentDirection)), currentDirection);
+            currentY = 200 + screenProvider.VeriticalDirection(distance * Math.Sin(DegreeToRadian(currentDirection)), currentDirection);
 
-            currentLinearSpeed = CalculateLinearSpeed();
+            currentLinearSpeed = 10;
+            //currentLinearSpeed = CalculateLinearSpeed();
             currentAngularSpeed = CalculateAngularSpeed(Math.Abs(distance));
             forward -= distance;
         }
@@ -78,6 +83,10 @@ namespace nbot.contracts
         /// </summary>
         private double CalculateLinearSpeed()
         {
+            if (currentLinearSpeed >= MAX_LINEAR_SPEED)
+            {
+                return currentLinearSpeed;
+            }
             return currentLinearSpeed + MAX_ACCELERATION * TIME_SLOT;
         }
 
