@@ -1,5 +1,6 @@
 let d3Helper = (function () {
-    let turns = [
+    let turns = [{"turn":0,"actors":[{"type":"bot","id":"bot1","pos":{"x":205.0,"y":200.0}}]},{"turn":1,"actors":[{"type":"bot","id":"bot1","pos":{"x":220.0,"y":200.0}}]},{"turn":2,"actors":[{"type":"bot","id":"bot1","pos":{"x":245.0,"y":199.0}}]},{"turn":3,"actors":[{"type":"bot","id":"bot1","pos":{"x":280.0,"y":198.0}}]},{"turn":4,"actors":[{"type":"bot","id":"bot1","pos":{"x":325.0,"y":195.0}}]},{"turn":5,"actors":[{"type":"bot","id":"bot1","pos":{"x":380.0,"y":191.0}}]},{"turn":6,"actors":[{"type":"bot","id":"bot1","pos":{"x":444.0,"y":186.0}}]},{"turn":7,"actors":[{"type":"bot","id":"bot1","pos":{"x":519.0,"y":178.0}}]},{"turn":8,"actors":[{"type":"bot","id":"bot1","pos":{"x":603.0,"y":168.0}}]},{"turn":9,"actors":[{"type":"bot","id":"bot1","pos":{"x":698.0,"y":155.0}}]}];
+    let turns2 = [
         {
             "turn": 1,
             "actors": [
