@@ -49,7 +49,7 @@ namespace nbot.referee.test
 
             var jsonData = JsonConvert.SerializeObject(plays, serializerSettings);
             var dumpJsData = $"let turns = {jsonData};";
-            File.WriteAllText("/home/paolo/Dev/robo/nbot/nbot.ui.test/d3data.js", dumpJsData);
+            File.WriteAllText("../../../../nbot.ui.test/d3data.js", dumpJsData);
         }
     }
 

@@ -1,6 +1,5 @@
 
 let d3Helper = (function () {
-    //let turns = [{ "turn": 0, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 200.0, "y": 200.0 } }] }, { "turn": 1, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 202.0, "y": 200.0 } }] }, { "turn": 2, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 204.0, "y": 200.0 } }] }, { "turn": 3, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 206.0, "y": 200.0 } }] }, { "turn": 4, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 210.0, "y": 199.0 } }] }, { "turn": 5, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 214.0, "y": 198.0 } }] }, { "turn": 6, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 219.0, "y": 197.0 } }] }, { "turn": 7, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 225.0, "y": 194.0 } }] }, { "turn": 8, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 231.0, "y": 191.0 } }] }, { "turn": 9, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 237.0, "y": 187.0 } }] }, { "turn": 10, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 243.0, "y": 181.0 } }] }, { "turn": 11, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 248.0, "y": 174.0 } }] }, { "turn": 12, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 253.0, "y": 165.0 } }] }, { "turn": 13, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 256.0, "y": 154.0 } }] }, { "turn": 14, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 258.0, "y": 143.0 } }] }, { "turn": 15, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 256.0, "y": 155.0 } }] }, { "turn": 16, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 252.0, "y": 168.0 } }] }, { "turn": 17, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 244.0, "y": 179.0 } }] }, { "turn": 18, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 234.0, "y": 190.0 } }] }, { "turn": 19, "actors": [{ "type": "bot", "id": "bot1", "pos": { "x": 220.0, "y": 197.0 } }] }];
     let turns2 = [
         {
             "turn": 1,
@@ -9,16 +8,8 @@ let d3Helper = (function () {
                     "type": "bot",
                     "id": "bot1",
                     "pos": {
-                        x: 10,
-                        y: 20
-                    }
-                },
-                {
-                    "type": "bot",
-                    "id": "bot2",
-                    "pos": {
-                        x: 40,
-                        y: 50
+                        x: 200,
+                        y: 200
                     }
                 }
             ]
@@ -30,27 +21,10 @@ let d3Helper = (function () {
                     "type": "bot",
                     "id": "bot1",
                     "pos": {
-                        x: 20,
-                        y: 30
-                    }
-                },
-                {
-                    "type": "bot",
-                    "id": "bot2",
-                    "pos": {
-                        x: 60,
-                        y: 80
-                    }
-                },
-                {
-                    "type": "bot",
-                    "id": "bot3",
-                    "pos": {
-                        x: 200,
-                        y: 150
+                        x: 250,
+                        y: 200
                     }
                 }
-
             ]
         },
         {
@@ -60,16 +34,47 @@ let d3Helper = (function () {
                     "type": "bot",
                     "id": "bot1",
                     "pos": {
-                        x: 30,
-                        y: 40
+                        x: 200,
+                        y: 150
                     }
-                },
+                }
+            ]
+        },
+        {
+            "turn": 4,
+            "actors": [
                 {
                     "type": "bot",
-                    "id": "bot3",
+                    "id": "bot1",
                     "pos": {
-                        x: 220,
-                        y: 140
+                        x: 150,
+                        y: 200
+                    }
+                }
+            ]
+        },
+        {
+            "turn": 5,
+            "actors": [
+                {
+                    "type": "bot",
+                    "id": "bot1",
+                    "pos": {
+                        x: 200,
+                        y: 250
+                    }
+                }
+            ]
+        },
+        {
+            "turn": 6,
+            "actors": [
+                {
+                    "type": "bot",
+                    "id": "bot1",
+                    "pos": {
+                        x: 250,
+                        y: 200
                     }
                 }
             ]
@@ -83,17 +88,22 @@ let d3Helper = (function () {
         container = d3.select("body").append("svg")
             .attr("width", 640)
             .attr("height", 480)
-            .style("border", "2px solid black");
+            .style("border", "2px solid white");
     }
 
     function draw(turns) {
+        let time = 100;
         for (let index = 0; index < turns.length; index++) {
 
             currentActors.forEach((item) => {
                 item.status = "off"
             });
 
-            drawActors(turns[index].actors);
+            setTimeout(function(){ drawActors(turns[index].actors); }, time);
+
+            time += 100;
+
+            //drawActors(turns[index].actors);
         }
     }
 
@@ -111,7 +121,7 @@ let d3Helper = (function () {
         //Remove 
         for (let index = 0; index < currentActors.length; index++) {
             if (currentActors[index].status === "off") {
-                const query = `rect[data-id='${currentActors[index].id}']`;
+                const query = `circle[data-id='${currentActors[index].id}']`;
 
                 let deleteBot = container.selectAll(query)
                     .transition()
@@ -122,7 +132,7 @@ let d3Helper = (function () {
             }
         }
 
-        console.log(container.selectAll("rect").data());
+        console.log(container.selectAll("circle").data());
     }
 
     function drawActor(actor) {
@@ -134,7 +144,7 @@ let d3Helper = (function () {
         actors = container.selectAll("bots")
             .data([actor])
             .enter()
-            .append("rect")
+            .append("circle")
             .attr("data-type", function (d) {
                 console.log("type: " + d.type);
                 return d.type;
@@ -142,17 +152,16 @@ let d3Helper = (function () {
             .attr("data-id", function (d) {
                 return d.id;
             })
-            .attr("x", function (d) {
+            .attr("cx", function (d) {
                 return d.pos.x;
             })
-            .attr("y", function (d) {
+            .attr("cy", function (d) {
                 return d.pos.y;
             })
             .style("opacity", .2)
             .style("stroke", "red")
-            .style("fill", "green")
-            .attr("width", 20)
-            .attr("height", 20);
+            .style("fill", "white")
+            .attr("r", 10);            
     }
 
     function moveActor(actor) {
@@ -161,21 +170,20 @@ let d3Helper = (function () {
                 item.status = "active"
             }
         });
-        const query = `rect[data-id='${actor.id}']`;
+        const query = `circle[data-id='${actor.id}']`;
 
         let moveBots = container.selectAll(query)
-            .transition()
-            .duration(1000)
-            .attr("x", function (d, i) {
+            .transition()            
+            .attr("cx", function (d, i) {
                 return actor.pos.x;
             })
-            .attr("y", function (d) {
+            .attr("cy", function (d) {
                 return actor.pos.y;
             });
     }
 
     function hasActor(id) {
-        const query = `rect[data-id='${id}']`;
+        const query = `circle[data-id='${id}']`;
         return container.selectAll(query).data().length > 0;
     }
 

@@ -26,11 +26,11 @@
             }
             else if (direction > 180 && direction <= 270)
             {
-                return -x;
+                return x;
             }
             else if (direction > 270 && direction <= 360)
             {
-                return -x;
+                return x;
             }
 
             return x;
@@ -39,7 +39,7 @@
         {
             if (direction > 0 && direction <= 90)
             {
-                return -y;
+                return y;
             }
             else if (direction > 90 && direction <= 180)
             {
@@ -51,7 +51,7 @@
             }
             else if (direction > 270 && direction <= 360)
             {
-                return -y;
+                return y;
             }
 
             return y;
