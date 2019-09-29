@@ -130,7 +130,7 @@ namespace nbot.contracts
         /// </summary>
         private double CalculateAngularSpeed(double r, double linearSpeed)
         {
-            return linearSpeed / r;
+            return 0.1 * linearSpeed / r;
         }
 
         /// <summary>
@@ -157,12 +157,23 @@ namespace nbot.contracts
         /// </summary>
         private double CalculateDirection(double r, double angularSpeed)
         {
+            if (steer == 0)
+            {
+                return currentDirection;
+            }
+
             var directionDelta = RadianToDegree(angularSpeed * TIME_SLOT);
             var directionNew = currentDirection + directionDelta;
 
             if (directionNew < 0 || directionNew > 360) directionNew = 0;
 
-            steer -= directionDelta;
+            var steerLeft = Math.Abs(steer) - directionDelta;
+            if (steerLeft < 0)
+            {
+                steerLeft = 0;
+            }
+
+            steer = steer < 0 ? -steerLeft : steerLeft;
 
             return directionNew;
         }
