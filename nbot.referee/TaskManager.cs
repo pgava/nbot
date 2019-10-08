@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace nbot.referee
 {
 
-    public class TaskManagerProvider : ITaskManagerProvider
+    public class TaskManager : ITaskManager
     {
         public void StartBots(IEnumerable<IBotController> bots)
         {

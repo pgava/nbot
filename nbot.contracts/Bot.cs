@@ -3,14 +3,14 @@ using System.Threading;
 
 namespace nbot.contracts
 {
-    public abstract class Bot : IBot, IActionsProvider
+    public abstract class Bot : IBot, IActions
     {
-        private IActionsProvider actionsProvider;
+        private IActions actions;
 
         // TODO: make sure only framework call this method
-        internal void SetActionsProvider(IActionsProvider actionProvider)
+        internal void SetActions(IActions actions)
         {
-            this.actionsProvider = actionProvider;
+            this.actions = actions;
         }
 
         public abstract void PlayTurn();
@@ -22,30 +22,30 @@ namespace nbot.contracts
 
         public void Ahead(double d)
         {
-            ThrowIfParameterIsNull(actionsProvider);
+            ThrowIfParameterIsNull(actions);
 
-            actionsProvider.Ahead(d);
+            actions.Ahead(d);
         }
 
         public void Back(double d)
         {
-            ThrowIfParameterIsNull(actionsProvider);
+            ThrowIfParameterIsNull(actions);
 
-            actionsProvider.Back(d);
+            actions.Back(d);
         }
 
         public void Right(double d)
         {
-            ThrowIfParameterIsNull(actionsProvider);
+            ThrowIfParameterIsNull(actions);
 
-            actionsProvider.Right(d);
+            actions.Right(d);
         }
 
         public void Left(double d)
         {
-            ThrowIfParameterIsNull(actionsProvider);
+            ThrowIfParameterIsNull(actions);
 
-            actionsProvider.Left(d);
+            actions.Left(d);
         }
 
         private void ThrowIfParameterIsNull<T>(T parameter)

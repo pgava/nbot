@@ -1,6 +1,6 @@
 namespace nbot.referee
 {
-    public interface ITimerProvider
+    public interface ITimerManager
     {
         void WaitForTimer();
         void WaitForTimer(int waitms);

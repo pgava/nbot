@@ -1,6 +1,6 @@
 namespace nbot.contracts
 {
-    public interface IScreenProvider
+    public interface IScreenProperties
     {
         double Width { get; }
         double Height { get; }

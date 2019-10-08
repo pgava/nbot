@@ -14,15 +14,34 @@ namespace nbot.referee.test
         [Fact]
         public void Can_Calculate_Bot_Position()
         {
-            var screenProvider = new D3ScreenProvider(640, 480);
-            var positionProvider = new PositionProvider(screenProvider, 200, 200);
-
-            positionProvider.SetMoveAhead(1000);
-            positionProvider.SetMoveRight(90);
-
+            var screenProvider = new D3ScreenProperties(640, 480);
+            var positionProvider = new Position(screenProvider, 200, 200);
             var plays = new List<Play>();
 
-            for (int turn = 0; turn < 50; turn++)
+            positionProvider.SetMoveAhead(1000);
+
+            GenerateMoves(positionProvider, plays, 5);
+
+            positionProvider.SetMoveRight(90);
+
+            GenerateMoves(positionProvider, plays, 10);
+
+            DumpMoves(plays);
+        }
+
+        private static void DumpMoves(List<Play> plays)
+        {
+            var serializerSettings = new JsonSerializerSettings();
+            serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+
+            var jsonData = JsonConvert.SerializeObject(plays, serializerSettings);
+            var dumpJsData = $"let turns = {jsonData};";
+            File.WriteAllText("../../../../nbot.ui.test/phaserjs/nbotdata.js", dumpJsData);
+        }
+
+        private static void GenerateMoves(Position positionProvider, List<Play> plays, int max)
+        {
+            for (int turn = 0; turn < max; turn++)
             {
                 positionProvider.CalculateNextPosition();
                 plays.Add(new Play
@@ -43,13 +62,6 @@ namespace nbot.referee.test
                     }
                 });
             }
-
-            var serializerSettings = new JsonSerializerSettings();
-            serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-
-            var jsonData = JsonConvert.SerializeObject(plays, serializerSettings);
-            var dumpJsData = $"let turns = {jsonData};";
-            File.WriteAllText("../../../../nbot.ui.test/d3data.js", dumpJsData);
         }
     }
 

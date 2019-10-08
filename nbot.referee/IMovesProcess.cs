@@ -2,7 +2,7 @@
 
 namespace nbot.referee
 {
-    public interface IMovesProvider
+    public interface IMovesProcess
     {
         IEnumerable<IMove> ProcessNextMove(IEnumerable<IBotController> bots);
     }

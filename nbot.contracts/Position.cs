@@ -2,12 +2,12 @@ using System;
 
 namespace nbot.contracts
 {
-    public class PositionProvider : IPositionProvider
+    public class Position : IPosition
     {
         private const double MAX_ACCELERATION = 4D;
         private const double TIME_SLOT = 2D;
-        private const double MAX_LINEAR_SPEED = 100;
-        private readonly IScreenProvider screenProvider;
+        private const double MAX_LINEAR_SPEED = 100D;
+        private readonly IScreenProperties screenProperties;
         private double currentLinearSpeed = 0;
         private double currentAngularSpeed = 0;
         private double currentX;
@@ -22,14 +22,14 @@ namespace nbot.contracts
         public double X => currentX;
         public double Y => currentY;
 
-        public PositionProvider(IScreenProvider screenProvider, double x, double y)
+        public Position(IScreenProperties screenProperties, double x, double y)
         {
-            if (screenProvider is null)
+            if (screenProperties is null)
             {
-                throw new ArgumentNullException(nameof(screenProvider));
+                throw new ArgumentNullException(nameof(screenProperties));
             }
 
-            this.screenProvider = screenProvider;
+            this.screenProperties = screenProperties;
             currentX = x;
             currentY = y;
         }
@@ -80,7 +80,7 @@ namespace nbot.contracts
                 previousX = currentX;
             }
 
-            return previousX + screenProvider.HorizontalDirection(distance * Math.Cos(DegreeToRadian(direction)), direction);
+            return previousX + screenProperties.HorizontalDirection(distance * Math.Cos(DegreeToRadian(direction)), direction);
         }
 
         private double CalculateVerticalPosition(double distance, double direction)
@@ -94,7 +94,7 @@ namespace nbot.contracts
                 previousY = currentY;
             }
 
-            return previousY + screenProvider.VeriticalDirection(distance * Math.Sin(DegreeToRadian(direction)), direction);
+            return previousY + screenProperties.VeriticalDirection(distance * Math.Sin(DegreeToRadian(direction)), direction);
         }
 
         private double DegreeToRadian(double degrees)

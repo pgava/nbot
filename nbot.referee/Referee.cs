@@ -7,43 +7,43 @@ namespace nbot.referee
     public class Referee : IReferee
     {
         private readonly IBotControllerCollection bots;
-        private readonly ITimerProvider timerProvider;
-        private readonly ITaskManagerProvider taskManagerProvider;
-        private readonly IMovesProvider actionProvider;
-        private readonly ISyncDataProvider syncDataProvider;
+        private readonly ITimerManager timerManager;
+        private readonly ITaskManager taskManager;
+        private readonly IMovesProcess movesProcess;
+        private readonly ISyncData syncData;
 
-        public Referee(IBotControllerCollection bots, ITimerProvider timerProvider, ITaskManagerProvider taskManagerProvider, IMovesProvider actionProvider, ISyncDataProvider syncDataProvider)
+        public Referee(IBotControllerCollection bots, ITimerManager timerManager, ITaskManager taskManager, IMovesProcess movesProcess, ISyncData syncData)
         {
             if (bots is null)
             {
                 throw new ArgumentNullException(nameof(bots));
             }
 
-            if (timerProvider is null)
+            if (timerManager is null)
             {
-                throw new ArgumentNullException(nameof(timerProvider));
+                throw new ArgumentNullException(nameof(timerManager));
             }
 
-            if (taskManagerProvider is null)
+            if (taskManager is null)
             {
-                throw new ArgumentNullException(nameof(taskManagerProvider));
+                throw new ArgumentNullException(nameof(taskManager));
             }
 
-            if (actionProvider is null)
+            if (movesProcess is null)
             {
-                throw new ArgumentNullException(nameof(actionProvider));
+                throw new ArgumentNullException(nameof(movesProcess));
             }
 
-            if (syncDataProvider is null)
+            if (syncData is null)
             {
-                throw new ArgumentNullException(nameof(syncDataProvider));
+                throw new ArgumentNullException(nameof(syncData));
             }
 
             this.bots = bots;
-            this.timerProvider = timerProvider;
-            this.taskManagerProvider = taskManagerProvider;
-            this.actionProvider = actionProvider;
-            this.syncDataProvider = syncDataProvider;
+            this.timerManager = timerManager;
+            this.taskManager = taskManager;
+            this.movesProcess = movesProcess;
+            this.syncData = syncData;
         }
 
         public void PlayMatch()
@@ -70,18 +70,18 @@ namespace nbot.referee
 
         private void ProcessTurn()
         {
-            var moves = actionProvider.ProcessNextMove(bots.GetRndBots());
-            syncDataProvider.SyncMoves(moves);
+            var moves = movesProcess.ProcessNextMove(bots.GetRndBots());
+            syncData.SyncMoves(moves);
         }
 
         private void WaitEndTurn()
         {
-            timerProvider.WaitForTimer();
+            timerManager.WaitForTimer();
         }
 
         private void StartBots()
         {
-            taskManagerProvider.StartBots(bots.GetRndBots());
+            taskManager.StartBots(bots.GetRndBots());
         }
 
         private bool IsMatchActive()

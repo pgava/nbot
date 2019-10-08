@@ -6,7 +6,7 @@ namespace nbot.referee.test
 {
     public class RefereeAddBotsTest
     {
-        private IRandomBotsProvider randomProvider = new RandomBotsProviderMock();
+        private IRandomBots randomProvider = new RandomBotsProviderMock();
 
         [Fact]
         public void Can_Add_Bot()

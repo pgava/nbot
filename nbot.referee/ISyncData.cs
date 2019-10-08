@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace nbot.referee
 {
-    public interface ISyncDataProvider
+    public interface ISyncData
     {
         void SyncMoves(IEnumerable<IMove> moves);
     }

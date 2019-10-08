@@ -4,7 +4,7 @@ using nbot.contracts;
 
 namespace nbot.referee
 {
-    public class RandomBotsProvider : IRandomBotsProvider
+    public class RandomBots : IRandomBots
     {
         public IEnumerable<IBotController> RandomizeList(IList<IBotController> items)
         {

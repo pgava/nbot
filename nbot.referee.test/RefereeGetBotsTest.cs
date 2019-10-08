@@ -10,7 +10,7 @@ namespace nbot.referee.test
         [Fact]
         public void Can_Get_Bots_In_Random_Order()
         {
-            var botCollection = new BotControllerCollection(new RandomBotsProvider());
+            var botCollection = new BotControllerCollection(new RandomBots());
             var bot1 = new BaseBot("b1");
             var bot2 = new BaseBot("b2");
             var bot3 = new BaseBot("b3");

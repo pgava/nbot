@@ -1,11 +1,11 @@
 ﻿namespace nbot.contracts
 {
-    public class D3ScreenProvider : IScreenProvider
+    public class D3ScreenProperties : IScreenProperties
     {
         private readonly double width;
         private readonly double height;
 
-        public D3ScreenProvider(double width, double height)
+        public D3ScreenProperties(double width, double height)
         {
             this.width = width;
             this.height = height;

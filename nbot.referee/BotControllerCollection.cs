@@ -8,9 +8,9 @@ namespace nbot.referee
     {
         private IList<IBotController> bots = new List<IBotController>();
 
-        private IRandomBotsProvider RandomBotsProvider { get; }
+        private IRandomBots RandomBotsProvider { get; }
 
-        public BotControllerCollection(IRandomBotsProvider randomBotsProvider)
+        public BotControllerCollection(IRandomBots randomBotsProvider)
         {
             if (randomBotsProvider == null)
             {

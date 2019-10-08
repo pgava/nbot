@@ -94,7 +94,7 @@ namespace nbot.referee.test
         }
     }
 
-    public class RandomBotsProviderMock : IRandomBotsProvider
+    public class RandomBotsProviderMock : IRandomBots
     {
         public IEnumerable<IBotController> RandomizeList(IList<IBotController> items)
         {

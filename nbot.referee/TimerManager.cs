@@ -3,16 +3,16 @@
 namespace nbot.referee
 {
 
-    public class TimerProvider : ITimerProvider
+    public class TimerManager : ITimerManager
     {
         private readonly ManualResetEvent timerEvent = new ManualResetEvent(false);
         private readonly int maxWaitMs = 20;
 
-        public TimerProvider()
+        public TimerManager()
         {
 
         }
-        public TimerProvider(int waitms)
+        public TimerManager(int waitms)
         {
             maxWaitMs = waitms;
         }
