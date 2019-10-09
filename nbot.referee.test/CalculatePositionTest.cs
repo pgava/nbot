@@ -24,7 +24,7 @@ namespace nbot.referee.test
 
             positionProvider.SetMoveRight(90);
 
-            GenerateMoves(positionProvider, plays, 10);
+            GenerateMoves(positionProvider, plays, 20);
 
             DumpMoves(plays);
         }

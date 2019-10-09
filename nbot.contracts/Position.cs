@@ -134,22 +134,30 @@ namespace nbot.contracts
         }
 
         /// <summary>
-        /// d = v0t + 1/2at^2
+        /// d = v0*t + 1/2*a*t^2
         /// </summary>
         private double CalculateDistance()
         {
+            // If we are turning keep distance fixed.
             if (steer != 0 && currentDistance != 0)
             {
                 return currentDistance;
             }
 
+            // d = v0*t + 1/2*a*t^2
             var distanceDelta = currentLinearSpeed * TIME_SLOT + (MAX_ACCELERATION * TIME_SLOT * TIME_SLOT) / 2;
 
-            var distance = Math.Min(distanceDelta, Math.Abs(forward));
+            // Make sure we don't go further than value requested.
+            var distanceNew = Math.Min(distanceDelta, Math.Abs(forward));
 
-            forward -= distance;
+            if (forward < 0)
+            {
+                distanceNew *= -1;
+            }
 
-            return distance;
+            forward -= distanceNew;
+
+            return distanceNew;
         }
 
         /// <summary>
@@ -162,18 +170,26 @@ namespace nbot.contracts
                 return currentDirection;
             }
 
+            // @ = w * t
             var directionDelta = RadianToDegree(angularSpeed * TIME_SLOT);
-            var directionNew = currentDirection + directionDelta;
 
-            if (directionNew < 0 || directionNew > 360) directionNew = 0;
+            // Make sure we don't go further than value requested.
+            directionDelta = Math.Min(directionDelta, Math.Abs(steer));
 
-            var steerLeft = Math.Abs(steer) - directionDelta;
-            if (steerLeft < 0)
+            if (steer < 0)
             {
-                steerLeft = 0;
+                directionDelta *= -1;
             }
 
-            steer = steer < 0 ? -steerLeft : steerLeft;
+            var directionNew = currentDirection + directionDelta;
+
+            // Direction value is between 0-360. If the value is negative get the complement angle.
+            if (directionNew < 0 )
+            {
+                directionNew += 360;
+            }
+
+            steer -= directionDelta;
 
             return directionNew;
         }
