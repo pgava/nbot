@@ -11,14 +11,11 @@
     <script>
 
         var config = {
-            type: Phaser.AUTO,
+            type: Phaser.WEBGL,
             width: 800,
             height: 600,
             backgroundColor: '#2d2d2d',
             parent: 'phaser-example',
-            physics: {
-                default: 'impact'
-            },
             scene: {
                 preload: preload,
                 create: create,
@@ -26,87 +23,117 @@
             }
         };
 
-        var t = 0;
-        var curve;
+        var arrow;
+        var tween;
         var points;
-        var ship;
-        var tempVec;
-        var tempVecP;
-
-        var curX = 0;
-        var curY = 0;
+        var points2;
+        var points3;
+        var points4;
+        var points5;
+        var t = 0;
+        var _this;
+        var graphics;
+        var parts = 8;
 
         var game = new Phaser.Game(config);
 
         function preload() {
-            this.load.image('ship', 'assets/aqua_ball.png');
+            this.load.image('arrow', 'assets/sprites/lemming.png');
         }
 
         function create() {
-            // var p0 = new Phaser.Math.Vector2(100, 500);
-            // var p1 = new Phaser.Math.Vector2(50, 100);
-            // var p2 = new Phaser.Math.Vector2(600, 100);
-            // var p3 = new Phaser.Math.Vector2(750, 300);
-            // curve = new Phaser.Curves.CubicBezier(p0, p1, p2, p3);
 
-            curve = new Phaser.Curves.Ellipse(400, 300, 200);
+            graphics = this.add.graphics();
 
-            points = curve.getSpacedPoints(32);
+            // points = [
+            //     50, 300, 179, 449, 394, 498, 593, 455,
+            //     701, 338, 692, 190, 603, 76, 423, 41,
+            //     272, 78, 181, 186, 230, 328, 416, 395,
+            //     565, 327, 550, 202, 467, 149, 355, 164,
+            //     343, 254, 428, 303
+            // ];
 
-            tempVec = new Phaser.Math.Vector2();
-            tempVecP = new Phaser.Math.Vector2();
+            points = [
+                50, 300, 179, 449, 394, 498, 593, 455
+            ];
+            points2 = [
+                701, 338, 692, 190, 603, 76, 423, 41
+            ];
+            points3 = [
+                272, 78, 181, 186, 230, 328, 416, 395
+            ];
+            points4 = [
+                565, 327, 550, 202, 467, 149, 355, 164
+            ];
+            points5 = [
+                343, 254, 428, 303
+            ];
 
-            // ship = this.impact.add.image(points[0].x, points[0].y, 'ship');
-            ship = this.impact.add.image(200, 200, 'ship');
+            _this = this;
 
-            nextPoint(this);
+            curve = new Phaser.Curves.Spline(points);
+            path = { t: 0, vec: new Phaser.Math.Vector2() };
+            arrow = this.add.image(400, 300, 'arrow');
+
+            tween = this.tweens.add({
+                targets: path,
+                t: 1,
+                x: 50,
+                y: 300,
+                ease: 'Sine.easeIn',
+                duration: 2000,
+                paused: true
+            });
+
+            t = 1;
+            parts += 8;
+            _this.time.addEvent({ delay: 500, callback: nextPoint, callbackScope: t, args: [t] });
+
+            tween.play();
+
+            // this.input.on('pointerdown', function () {
+
+            //     tween.play();
+            //     t = 1;
+            //     parts += 8;
+            //     _this.time.addEvent({ delay: 200, callback: nextPoint, callbackScope: t, args: [t] });
+            // });
         }
 
-        function nextPoint(scene) {
-            //var next = points[t % points.length];
-            //moveToXY(ship, next.x, next.y, 0, 500);
+        function nextPoint(t) {
+            t += 1;
+            tween.duration += 2000;
 
-            // curX = curX + 10;
-            // curY = curY + 10;
-            // moveToXY(ship, curX, curY, 0, 500);
-
-            moveToXY(ship, turns[t].actors[0].pos.x, turns[t].actors[0].pos.y, 0, 500);
-            t++;
-
-            scene.time.addEvent({ delay: 100, callback: nextPoint, callbackScope: scene, args: [scene] });
-        }
-
-        function moveToXY(gameObject, x, y, speed, maxTime) {
-            if (speed === undefined) { speed = 60; }
-            if (maxTime === undefined) { maxTime = 0; }
-
-            var angle = Math.atan2(y - gameObject.y, x - gameObject.x);
-
-            if (maxTime > 0) {
-                //  We know how many pixels we need to move, but how fast?
-                var dx = gameObject.x - x;
-                var dy = gameObject.y - y;
-
-                speed = Math.sqrt(dx * dx + dy * dy) / (maxTime / 1000);
+            if (t == 2) {
+                curve.addPoints(points2);
+            }
+            if (t == 3) {
+                curve.addPoints(points3);
+            }
+            if (t == 4) {
+                curve.addPoints(points4);
+            }
+            if (t == 5) {
+                curve.addPoints(points5);
             }
 
-            gameObject.setVelocityX(Math.cos(angle) * speed);
-            gameObject.setVelocityY(Math.sin(angle) * speed);
+            tween.timeScale = 1 / t;
 
-            // gameObject.rotation = angle;
+            if (t < 6) {
+                _this.time.addEvent({ delay: 200, callback: nextPoint, callbackScope: t, args: [t] });
+            }
         }
 
         function update() {
-            // var t = curve.getUtoTmapping(map.u);
+            graphics.clear();
 
-            // curve.getPoint(t + 0.1, tempVecP);
-            // curve.getTangent(t, tempVec);
+            graphics.lineStyle(2, 0xffffff, 1);
 
-            // tempVec.scale(180);
+            curve.draw(graphics, parts);
 
-            // ship.setVelocity(tempVec.x, tempVec.y);
+            curve.getPoint(path.t, path.vec);
 
-            // ship.rotation = Phaser.Math.Angle.Between(ship.x, ship.y, tempVecP.x, tempVecP.y);
+            arrow.setPosition(path.vec.x, path.vec.y);
         }
 
     </script>

@@ -20,11 +20,11 @@ namespace nbot.referee.test
 
             positionProvider.SetMoveAhead(1000);
 
-            GenerateMoves(positionProvider, plays, 5);
+            GenerateMoves(positionProvider, plays, 0, 5);
 
             positionProvider.SetMoveRight(90);
 
-            GenerateMoves(positionProvider, plays, 20);
+            GenerateMoves(positionProvider, plays, 5, 20);
 
             DumpMoves(plays);
         }
@@ -39,9 +39,9 @@ namespace nbot.referee.test
             File.WriteAllText("../../../../nbot.ui.test/phaserjs/nbotdata.js", dumpJsData);
         }
 
-        private static void GenerateMoves(Position positionProvider, List<Play> plays, int max)
+        private static void GenerateMoves(Position positionProvider, List<Play> plays, int min, int max)
         {
-            for (int turn = 0; turn < max; turn++)
+            for (int turn = min; turn < max; turn++)
             {
                 positionProvider.CalculateNextPosition();
                 plays.Add(new Play
