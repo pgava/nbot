@@ -4,9 +4,9 @@ namespace nbot.contracts
 {
     public class Position : IPosition
     {
-        private const double MAX_ACCELERATION = 4D;
+        private const double MAX_ACCELERATION = 3D;
         private const double TIME_SLOT = 2D;
-        private const double MAX_LINEAR_SPEED = 100D;
+        private const double MAX_LINEAR_SPEED = 50D;
         private readonly IScreenProperties screenProperties;
         private double currentLinearSpeed = 0;
         private double currentAngularSpeed = 0;
@@ -65,7 +65,7 @@ namespace nbot.contracts
             currentAngularSpeed = CalculateAngularSpeed(Math.Abs(currentDistance), currentLinearSpeed);
             currentDirection = CalculateDirection(currentDistance, currentAngularSpeed);
             currentX = CalculateHorizontalPosition(currentDistance, currentDirection);
-            currentY = CalculateVerticalPosition(currentDistance, currentDirection); ;
+            currentY = CalculateVerticalPosition(currentDistance, currentDirection);
 
         }
 
@@ -80,7 +80,7 @@ namespace nbot.contracts
                 previousX = currentX;
             }
 
-            return previousX + screenProperties.HorizontalDirection(distance * Math.Cos(DegreeToRadian(direction)), direction);
+            return screenProperties.HorizontalDirection(previousX, distance * Math.Cos(DegreeToRadian(direction)), direction);
         }
 
         private double CalculateVerticalPosition(double distance, double direction)
@@ -94,7 +94,7 @@ namespace nbot.contracts
                 previousY = currentY;
             }
 
-            return previousY + screenProperties.VeriticalDirection(distance * Math.Sin(DegreeToRadian(direction)), direction);
+            return screenProperties.VeriticalDirection(previousY, distance * Math.Sin(DegreeToRadian(direction)), direction);
         }
 
         private double DegreeToRadian(double degrees)
@@ -130,7 +130,7 @@ namespace nbot.contracts
         /// </summary>
         private double CalculateAngularSpeed(double r, double linearSpeed)
         {
-            return 0.1 * linearSpeed / r;
+            return 0.5 * linearSpeed / r;
         }
 
         /// <summary>
@@ -184,9 +184,14 @@ namespace nbot.contracts
             var directionNew = currentDirection + directionDelta;
 
             // Direction value is between 0-360. If the value is negative get the complement angle.
-            if (directionNew < 0 )
+            if (directionNew < 0)
             {
                 directionNew += 360;
+            }
+
+            if (directionNew > 360)
+            {
+                directionNew -= 360;
             }
 
             steer -= directionDelta;

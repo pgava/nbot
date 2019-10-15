@@ -30,110 +30,93 @@
         var points3;
         var points4;
         var points5;
-        var t = 0;
+        var frameSlot = 0;
         var _this;
         var graphics;
-        var parts = 8;
+        const maxPoints = 5;
 
         var game = new Phaser.Game(config);
 
         function preload() {
-            this.load.image('arrow', 'assets/sprites/lemming.png');
+            this.load.image('arrow', 'assets/car90.png');
+        }
+
+        function getPoints() {
+            let startAt = frameSlot * maxPoints;
+            let endAt = (frameSlot + 1) * maxPoints;
+            if (turns.length - startAt < maxPoints) {
+                endAt = turns.length - startAt;
+            }
+
+            let points = [];
+            for (let index = startAt; index < endAt; index++) {
+                const element = turns[index];
+                points.push(element.actors[0].pos.x);
+                points.push(element.actors[0].pos.y);
+            }
+
+            console.log(points);
+
+            return points;
+        }
+
+        function hasPoints() {
+            return turns.length - maxPoints * frameSlot > 0;
         }
 
         function create() {
 
-            graphics = this.add.graphics();
-
-            // points = [
-            //     50, 300, 179, 449, 394, 498, 593, 455,
-            //     701, 338, 692, 190, 603, 76, 423, 41,
-            //     272, 78, 181, 186, 230, 328, 416, 395,
-            //     565, 327, 550, 202, 467, 149, 355, 164,
-            //     343, 254, 428, 303
-            // ];
-
-            points = [
-                50, 300, 179, 449, 394, 498, 593, 455
-            ];
-            points2 = [
-                701, 338, 692, 190, 603, 76, 423, 41
-            ];
-            points3 = [
-                272, 78, 181, 186, 230, 328, 416, 395
-            ];
-            points4 = [
-                565, 327, 550, 202, 467, 149, 355, 164
-            ];
-            points5 = [
-                343, 254, 428, 303
-            ];
-
             _this = this;
 
+            graphics = this.add.graphics();
+
+            points = getPoints();
             curve = new Phaser.Curves.Spline(points);
             path = { t: 0, vec: new Phaser.Math.Vector2() };
-            arrow = this.add.image(400, 300, 'arrow');
+            arrow = this.add.image(300, 100, 'arrow');
 
             tween = this.tweens.add({
                 targets: path,
                 t: 1,
-                x: 50,
-                y: 300,
+                x: 306,
+                y: 100,
                 ease: 'Sine.easeIn',
-                duration: 2000,
+                duration: 200000,
                 paused: true
             });
 
-            t = 1;
-            parts += 8;
-            _this.time.addEvent({ delay: 500, callback: nextPoint, callbackScope: t, args: [t] });
+            _this.time.addEvent({ delay: 1000, callback: nextPoint });
 
             tween.play();
 
-            // this.input.on('pointerdown', function () {
-
-            //     tween.play();
-            //     t = 1;
-            //     parts += 8;
-            //     _this.time.addEvent({ delay: 200, callback: nextPoint, callbackScope: t, args: [t] });
-            // });
         }
 
-        function nextPoint(t) {
-            t += 1;
-            tween.duration += 2000;
+        function nextPoint() {
+            frameSlot += 1;
 
-            if (t == 2) {
-                curve.addPoints(points2);
-            }
-            if (t == 3) {
-                curve.addPoints(points3);
-            }
-            if (t == 4) {
-                curve.addPoints(points4);
-            }
-            if (t == 5) {
-                curve.addPoints(points5);
-            }
+            curve.addPoints(getPoints());
 
-            tween.timeScale = 1 / t;
+            tween.timeScale = 100 / frameSlot;
 
-            if (t < 6) {
-                _this.time.addEvent({ delay: 200, callback: nextPoint, callbackScope: t, args: [t] });
+            if (hasPoints()) {
+                _this.time.addEvent({ delay: 200, callback: nextPoint });
             }
         }
 
         function update() {
             graphics.clear();
 
-            graphics.lineStyle(2, 0xffffff, 1);
+            //graphics.lineStyle(2, 0xffffff, 1);
 
-            curve.draw(graphics, parts);
+            //curve.draw(graphics, parts);
 
             curve.getPoint(path.t, path.vec);
 
+            var angle = Math.atan2(path.vec.y - arrow.y, path.vec.x - arrow.x);
+            arrow.rotation = angle;
             arrow.setPosition(path.vec.x, path.vec.y);
+
+            //console.log(`x: ${path.vec.x} y: ${path.vec.y}`);
         }
 
     </script>

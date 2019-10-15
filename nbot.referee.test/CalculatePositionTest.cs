@@ -14,17 +14,35 @@ namespace nbot.referee.test
         [Fact]
         public void Can_Calculate_Bot_Position()
         {
-            var screenProvider = new D3ScreenProperties(640, 480);
-            var positionProvider = new Position(screenProvider, 200, 200);
+            var screenProvider = new D3ScreenProperties(800, 600, 20);
+            var positionProvider = new Position(screenProvider, 300, 100);
             var plays = new List<Play>();
 
             positionProvider.SetMoveAhead(1000);
 
             GenerateMoves(positionProvider, plays, 0, 5);
 
+            positionProvider.SetMoveRight(360);
+
+            GenerateMoves(positionProvider, plays, 5, 15);
+
+            positionProvider.SetMoveRight(360);
+
+            GenerateMoves(positionProvider, plays, 15, 25);
+
             positionProvider.SetMoveRight(90);
 
-            GenerateMoves(positionProvider, plays, 5, 20);
+            GenerateMoves(positionProvider, plays, 25, 30);
+
+            positionProvider.SetMoveRight(45);
+
+            GenerateMoves(positionProvider, plays, 30, 35);
+
+            // GenerateMoves(positionProvider, plays, 10, 15);
+
+            // positionProvider.SetMoveRight(90);
+
+            // GenerateMoves(positionProvider, plays, 15, 20);
 
             DumpMoves(plays);
         }
