@@ -4,7 +4,6 @@ namespace nbot.contracts.screens
     {
         double Width { get; }
         double Height { get; }
-        double HorizontalDirection(double curX, double x, double direction);
-        double VeriticalDirection(double curY, double y, double direction);
+        Point CheckLimits(Point current, Point next, bool canBounce = true);
     }
 }

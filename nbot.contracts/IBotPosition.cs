@@ -2,9 +2,7 @@ namespace nbot.contracts
 {
     public interface IBotPosition
     {
-        double X { get; }
-        double Y { get; }
-
+        Point Position { get; }
         void SetMoveAhead(double d);
         void SetMoveBack(double d);
         void SetMoveRight(double a);

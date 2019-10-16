@@ -11,17 +11,14 @@ namespace nbot.contracts
         private readonly IScreenProperties screenProperties;
         private double currentLinearSpeed = 0;
         private double currentAngularSpeed = 0;
-        private double currentX;
-        private double currentY;
-        private double previousX;
-        private double previousY;
+        private Point currentPosition;
+        private Point previousPosition;
         private double currentDirection = 0;
         private double currentDistance = 0;
         private double forward;
         private double steer;
 
-        public double X => currentX;
-        public double Y => currentY;
+        public Point Position => currentPosition;
 
         public BotPosition(double x, double y, IScreenProperties screenProperties)
         {
@@ -31,9 +28,23 @@ namespace nbot.contracts
             }
 
             this.screenProperties = screenProperties;
-            currentX = x;
-            currentY = y;
+
+            currentPosition = new Point(x, y);
+            
         }
+
+        public BotPosition(Point position, IScreenProperties screenProperties)
+        {
+            if (screenProperties is null)
+            {
+                throw new ArgumentNullException(nameof(screenProperties));
+            }
+
+            this.screenProperties = screenProperties;
+
+            currentPosition = new Point(position.X, position.Y);
+        }
+
         public void SetMoveAhead(double d)
         {
             forward = d;
@@ -65,23 +76,15 @@ namespace nbot.contracts
             currentLinearSpeed = CalculateLinearSpeed();
             currentAngularSpeed = CalculateAngularSpeed(Math.Abs(currentDistance), currentLinearSpeed);
             currentDirection = CalculateDirection(currentDistance, currentAngularSpeed);
-            currentX = CalculateHorizontalPosition(currentDistance, currentDirection);
-            currentY = CalculateVerticalPosition(currentDistance, currentDirection);
-
+            currentPosition = CalculatePosition(currentDistance, currentDirection);
         }
 
-        private double CalculateHorizontalPosition(double distance, double direction)
+        private Point CalculatePosition(double distance, double direction)
         {
-            previousX = currentX;
+            previousPosition = currentPosition;
 
-            return screenProperties.HorizontalDirection(previousX, distance * Math.Cos(DegreeToRadian(direction)), direction);
-        }
-
-        private double CalculateVerticalPosition(double distance, double direction)
-        {
-            previousY = currentY;
-
-            return screenProperties.VeriticalDirection(previousY, distance * Math.Sin(DegreeToRadian(direction)), direction);
+            return screenProperties.CheckLimits(currentPosition, 
+                new Point(distance * Math.Cos(DegreeToRadian(direction)), distance * Math.Sin(DegreeToRadian(direction))));
         }
 
         private double DegreeToRadian(double degrees)

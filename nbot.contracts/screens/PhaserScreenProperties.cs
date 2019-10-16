@@ -16,32 +16,56 @@
 
         public double Height => height;
 
-        public double HorizontalDirection(double curX, double x, double direction)
+        public Point CheckLimits(Point current, Point next, bool canBounce)
+        {
+            bool hasLImit;
+            var x = HorizontalLimit(current.X, next.X, out hasLImit);
+            if (hasLImit && !canBounce)
+            {
+                return new Point(x, current.Y);
+            }
+
+            var y = HorizontalLimit(current.Y, next.Y, out hasLImit);
+            if (hasLImit && !canBounce)
+            {
+                return new Point(current.X, y);
+            }
+
+            return new Point(x, y);
+        }
+
+        private double HorizontalLimit(double curX, double x, out bool hasLimit)
         {
             var newX = curX + x;
             if (newX > width)
             {
+                hasLimit = true;
                 return width - border;
             }
             if (newX < 0)
             {
+                hasLimit = true;
                 return 0 + border;
             }
 
+            hasLimit = false;
             return newX;
         }
-        public double VeriticalDirection(double curY, double y, double direction)
+        private double VeriticalLimit(double curY, double y, out bool hasLimit)
         {
             var newY = curY + y;
             if (newY > height)
             {
+                hasLimit = true;
                 return height - border;
             }
             if (newY < 0)
             {
+                hasLimit = true;
                 return 0 + border;
             }
 
+            hasLimit = false;
             return newY;
         }
     }

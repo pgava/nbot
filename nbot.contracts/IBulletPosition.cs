@@ -2,8 +2,7 @@ namespace nbot.contracts
 {
     public interface IBulletPosition
     {
-        double X { get; }
-        double Y { get; }
+        Point Position { get; }
 
         void CalculateNextPosition();
     }

@@ -50,8 +50,8 @@ namespace nbot.referee.test
                             Id = "bot1",
                             Pos = new Pos
                             {
-                                X = Math.Round(positionProvider.X),
-                                Y = Math.Round(positionProvider.Y)
+                                X = Math.Round(positionProvider.Position.X),
+                                Y = Math.Round(positionProvider.Position.Y)
                             }
                         }
                     }

@@ -10,12 +10,10 @@ namespace nbot.contracts
         private const double MAX_LINEAR_SPEED = 100D;
         private readonly IScreenProperties screenProperties;
         private double currentLinearSpeed;
-        private double currentX;
-        private double currentY;
+        private Point currentPosition;
         private double currentDirection;
         private double currentDistance;
-        public double X => currentX;
-        public double Y => currentY;
+        public Point Position => currentPosition;
 
         public BulletPosition(double x, double y, double direction, IScreenProperties screenProperties)
         {
@@ -25,8 +23,19 @@ namespace nbot.contracts
             }
 
             this.screenProperties = screenProperties;
-            currentX = x;
-            currentY = y;
+            currentPosition = new Point(x, y);
+            currentDirection = direction;
+        }
+
+        public BulletPosition(Point position, double direction, IScreenProperties screenProperties)
+        {
+            if (screenProperties is null)
+            {
+                throw new ArgumentNullException(nameof(screenProperties));
+            }
+
+            this.screenProperties = screenProperties;
+            currentPosition = new Point(position.X, position.Y);
             currentDirection = direction;
         }
 
@@ -34,18 +43,13 @@ namespace nbot.contracts
         {
             currentDistance = CalculateDistance();
             currentLinearSpeed = CalculateLinearSpeed();
-            currentX = CalculateHorizontalPosition(currentDistance, currentDirection);
-            currentY = CalculateVerticalPosition(currentDistance, currentDirection);
+            currentPosition = CalculatePosition(currentDistance, currentDirection);
         }
 
-        private double CalculateHorizontalPosition(double distance, double direction)
+        private Point CalculatePosition(double distance, double direction)
         {
-            return screenProperties.HorizontalDirection(currentX, distance * Math.Cos(DegreeToRadian(direction)), direction);
-        }
-
-        private double CalculateVerticalPosition(double distance, double direction)
-        {
-            return screenProperties.VeriticalDirection(currentY, distance * Math.Sin(DegreeToRadian(direction)), direction);
+            return screenProperties.CheckLimits(currentPosition,
+                new Point(distance * Math.Cos(DegreeToRadian(direction)), distance * Math.Sin(DegreeToRadian(direction))), false);
         }
 
         private double DegreeToRadian(double degrees)
