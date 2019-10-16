@@ -23,7 +23,7 @@ namespace nbot.contracts
         public double X => currentX;
         public double Y => currentY;
 
-        public BotPosition(IScreenProperties screenProperties, double x, double y)
+        public BotPosition(double x, double y, IScreenProperties screenProperties)
         {
             if (screenProperties is null)
             {
@@ -72,28 +72,14 @@ namespace nbot.contracts
 
         private double CalculateHorizontalPosition(double distance, double direction)
         {
-            if (steer != 0 && previousX == 0)
-            {
-                previousX = currentX;
-            }
-            else
-            {
-                previousX = currentX;
-            }
+            previousX = currentX;
 
             return screenProperties.HorizontalDirection(previousX, distance * Math.Cos(DegreeToRadian(direction)), direction);
         }
 
         private double CalculateVerticalPosition(double distance, double direction)
         {
-            if (steer != 0 && previousY == 0)
-            {
-                previousY = currentY;
-            }
-            else
-            {
-                previousY = currentY;
-            }
+            previousY = currentY;
 
             return screenProperties.VeriticalDirection(previousY, distance * Math.Sin(DegreeToRadian(direction)), direction);
         }

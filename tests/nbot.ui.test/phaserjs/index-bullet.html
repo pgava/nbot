@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.19.0/dist/phaser.js"></script>
+    <script type="text/javascript" src="bulletdata.js"></script>
+</head>
+
+<body>
+
+    <script>
+
+        var config = {
+            type: Phaser.WEBGL,
+            width: 800,
+            height: 600,
+            backgroundColor: '#2d2d2d',
+            parent: 'phaser-example',
+            scene: {
+                preload: preload,
+                create: create,
+                update: update
+            }
+        };
+
+        var arrow;
+        var tween;
+        var points;
+        var points2;
+        var points3;
+        var points4;
+        var points5;
+        var frameSlot = 0;
+        var _this;
+        var graphics;
+        const maxPoints = 5;
+
+        var game = new Phaser.Game(config);
+
+        function preload() {
+            this.load.image('arrow', 'assets/shmup-bullet.png');
+        }
+
+        function getPoints() {
+            let startAt = frameSlot * maxPoints;
+            let endAt = (frameSlot + 1) * maxPoints;
+            if (turns.length - startAt < maxPoints) {
+                endAt = turns.length - startAt;
+            }
+
+            let points = [];
+            for (let index = startAt; index < endAt; index++) {
+                const element = turns[index];
+                points.push(element.actors[0].pos.x);
+                points.push(element.actors[0].pos.y);
+            }
+
+            console.log(points);
+
+            return points;
+        }
+
+        function hasPoints() {
+            return turns.length - maxPoints * frameSlot > 0;
+        }
+
+        function create() {
+
+            _this = this;
+
+            graphics = this.add.graphics();
+
+            points = getPoints();
+            curve = new Phaser.Curves.Spline(points);
+            path = { t: 0, vec: new Phaser.Math.Vector2() };
+            arrow = this.add.image(300, 100, 'arrow');
+
+            tween = this.tweens.add({
+                targets: path,
+                t: 1,
+                x: 306,
+                y: 100,
+                ease: 'Sine.easeIn',
+                duration: 200000,
+                paused: true
+            });
+
+            _this.time.addEvent({ delay: 1000, callback: nextPoint });
+
+            tween.play();
+
+        }
+
+        function nextPoint() {
+            frameSlot += 1;
+
+            curve.addPoints(getPoints());
+
+            tween.timeScale = 100 / frameSlot;
+
+            if (hasPoints()) {
+                _this.time.addEvent({ delay: 200, callback: nextPoint });
+            }
+        }
+
+        function update() {
+            graphics.clear();
+
+            //graphics.lineStyle(2, 0xffffff, 1);
+
+            //curve.draw(graphics, parts);
+
+            curve.getPoint(path.t, path.vec);
+
+            var angle = Math.atan2(path.vec.y - arrow.y, path.vec.x - arrow.x);
+            arrow.rotation = angle;
+            arrow.setPosition(path.vec.x, path.vec.y);
+
+            //console.log(`x: ${path.vec.x} y: ${path.vec.y}`);
+        }
+
+    </script>
+
+</body>
+
+</html>
