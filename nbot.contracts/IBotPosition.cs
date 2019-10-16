@@ -1,6 +1,6 @@
 namespace nbot.contracts
 {
-    public interface IPosition
+    public interface IBotPosition
     {
         double X { get; }
         double Y { get; }

@@ -1,4 +1,4 @@
-namespace nbot.contracts
+namespace nbot.contracts.screens
 {
     public interface IScreenProperties
     {

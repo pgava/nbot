@@ -4,9 +4,9 @@ namespace nbot.contracts
 {
     public class Actions : IActions
     {
-        private readonly IPosition position;
+        private readonly IBotPosition position;
 
-        public Actions(IPosition position)
+        public Actions(IBotPosition position)
         {
             if (position is null)
             {

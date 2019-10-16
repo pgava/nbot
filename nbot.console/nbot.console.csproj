@@ -3,7 +3,7 @@
   <ItemGroup>
     <ProjectReference Include="..\nbot.samples\nbot.samples.csproj" />
     <ProjectReference Include="..\nbot.referee\nbot.referee.csproj" />
-    <ProjectReference Include="..\nbot.referee.test\nbot.referee.test.csproj" />
+    <ProjectReference Include="..\tests\nbot.referee.test\nbot.referee.test.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

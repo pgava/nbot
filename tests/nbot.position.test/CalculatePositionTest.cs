@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Xunit;
 using FluentAssertions;
 using nbot.contracts;
+using nbot.contracts.screens;
 using System;
 using Newtonsoft.Json;
 using System.IO;
@@ -14,8 +15,8 @@ namespace nbot.referee.test
         [Fact]
         public void Can_Calculate_Bot_Position()
         {
-            var screenProvider = new D3ScreenProperties(800, 600, 20);
-            var positionProvider = new Position(screenProvider, 300, 100);
+            var screenProvider = new PhaserScreenProperties(800, 600, 20);
+            var positionProvider = new BotPosition(screenProvider, 300, 100);
             var plays = new List<Play>();
 
             positionProvider.SetMoveAhead(1000);
@@ -54,10 +55,10 @@ namespace nbot.referee.test
 
             var jsonData = JsonConvert.SerializeObject(plays, serializerSettings);
             var dumpJsData = $"let turns = {jsonData};";
-            File.WriteAllText("../../../../nbot.ui.test/phaserjs/nbotdata.js", dumpJsData);
+            File.WriteAllText("../../../../test/nbot.ui.test/phaserjs/nbotdata.js", dumpJsData);
         }
 
-        private static void GenerateMoves(Position positionProvider, List<Play> plays, int min, int max)
+        private static void GenerateMoves(BotPosition positionProvider, List<Play> plays, int min, int max)
         {
             for (int turn = min; turn < max; turn++)
             {

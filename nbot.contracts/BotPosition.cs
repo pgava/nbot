@@ -1,8 +1,9 @@
 using System;
+using nbot.contracts.screens;
 
 namespace nbot.contracts
 {
-    public class Position : IPosition
+    public class BotPosition : IBotPosition
     {
         private const double MAX_ACCELERATION = 3D;
         private const double TIME_SLOT = 2D;
@@ -22,7 +23,7 @@ namespace nbot.contracts
         public double X => currentX;
         public double Y => currentY;
 
-        public Position(IScreenProperties screenProperties, double x, double y)
+        public BotPosition(IScreenProperties screenProperties, double x, double y)
         {
             if (screenProperties is null)
             {
