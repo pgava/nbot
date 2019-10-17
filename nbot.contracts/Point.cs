@@ -1,6 +1,6 @@
 namespace nbot.contracts
 {
-    public class Point
+    public struct Point
     {
         public double X { get; }
         public double Y { get; }

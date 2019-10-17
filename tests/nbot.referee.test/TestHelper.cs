@@ -24,7 +24,7 @@ namespace nbot.referee.test
             return AssemblyLoadContext.Default.LoadFromAssemblyPath(GetCurrentFullPath());
         }
 
-        static public IBot CreateBot(Assembly assembly)
+        static public Bot CreateBot(Assembly assembly)
         {
             var tasks = LoadBots(assembly);
 
@@ -50,16 +50,16 @@ namespace nbot.referee.test
             return tasks.First();
         }
 
-        static public IEnumerable<IBot> LoadBots(Assembly assembly)
+        static public IEnumerable<Bot> LoadBots(Assembly assembly)
         {
-            IList<IBot> tasks = new List<IBot>();
+            IList<Bot> tasks = new List<Bot>();
 
             // Find all objects of type IBot
             foreach (Type type in assembly.GetTypes())
             {
                 if (typeof(IBot).IsAssignableFrom(type))
                 {
-                    IBot result = Activator.CreateInstance(type) as IBot;
+                    Bot result = Activator.CreateInstance(type) as Bot;
                     if (result != null)
                     {
                         tasks.Add(result);
