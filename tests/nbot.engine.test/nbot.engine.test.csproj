@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\nbot.actions\nbot.actions.csproj" />
+    <ProjectReference Include="..\..\nbot.contract\nbot.contract.csproj" />
     <ProjectReference Include="..\..\nbot.engine\nbot.engine.csproj" />
   </ItemGroup>
 

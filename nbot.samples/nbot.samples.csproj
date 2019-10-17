@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\nbot.contracts\nbot.contracts.csproj" />
+    <ProjectReference Include="..\nbot.contract\nbot.contract.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

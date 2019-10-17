@@ -2,8 +2,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\nbot.samples\nbot.samples.csproj" />
-    <ProjectReference Include="..\nbot.referee\nbot.referee.csproj" />
-    <ProjectReference Include="..\tests\nbot.referee.test\nbot.referee.test.csproj" />
+    <ProjectReference Include="..\nbot.engine\nbot.engine.csproj" />
+    <ProjectReference Include="..\tests\nbot.engine.test\nbot.engine.test.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

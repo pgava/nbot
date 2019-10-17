@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using Xunit;
 using FluentAssertions;
-using nbot.contracts;
-using nbot.contracts.screens;
+using nbot.actions;
+using nbot.actions.screens;
 using System;
 using Newtonsoft.Json;
 using System.IO;
 using Newtonsoft.Json.Serialization;
 
-namespace nbot.referee.test
+namespace nbot.engine.test
 {
     public class CalculateBotPositionTests
     {

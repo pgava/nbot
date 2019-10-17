@@ -1,5 +1,5 @@
 ﻿using System;
-using nbot.contracts;
+using nbot.contract;
 
 namespace nbot.samples
 {
