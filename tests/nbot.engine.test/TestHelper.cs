@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
+using nbot.actions;
 using nbot.contract;
 
 namespace nbot.engine.test
@@ -82,6 +83,11 @@ namespace nbot.engine.test
         public bool IsAlive => throw new NotImplementedException();
 
         public string Name { get; }
+
+        public Point CalculateNextPosition()
+        {
+            throw new NotImplementedException();
+        }
 
         public void Turn()
         {

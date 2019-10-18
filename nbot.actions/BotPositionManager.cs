@@ -3,7 +3,7 @@ using nbot.actions.screens;
 
 namespace nbot.actions
 {
-    public class BotPosition : IBotPosition
+    public class BotPositionManager
     {
         private const double MAX_ACCELERATION = 3D;
         private const double TIME_SLOT = 2D;
@@ -18,9 +18,7 @@ namespace nbot.actions
         private double forward;
         private double steer;
 
-        public Point Position => currentPosition;
-
-        public BotPosition(IScreenProperties screenProperties)
+        public BotPositionManager(IScreenProperties screenProperties)
         {
             if (screenProperties is null)
             {
@@ -32,7 +30,7 @@ namespace nbot.actions
             currentPosition = Point.Rnd(this.screenProperties.Width, this.screenProperties.Height);
 
         }
-        public BotPosition(double x, double y, IScreenProperties screenProperties)
+        public BotPositionManager(double x, double y, IScreenProperties screenProperties)
         {
             if (screenProperties is null)
             {
@@ -45,7 +43,7 @@ namespace nbot.actions
 
         }
 
-        public BotPosition(Point position, IScreenProperties screenProperties)
+        public BotPositionManager(Point position, IScreenProperties screenProperties)
         {
             if (screenProperties is null)
             {
@@ -55,26 +53,6 @@ namespace nbot.actions
             this.screenProperties = screenProperties;
 
             currentPosition = new Point(position.X, position.Y);
-        }
-
-        public void SetMoveAhead(double d)
-        {
-            forward = d;
-        }
-
-        public void SetMoveBack(double d)
-        {
-            forward = -d;
-        }
-
-        public void SetMoveRight(double d)
-        {
-            steer = d;
-        }
-
-        public void SetMoveLeft(double d)
-        {
-            steer = -d;
         }
 
         public void CalculateNextPosition()

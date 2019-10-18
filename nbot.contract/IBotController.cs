@@ -1,3 +1,5 @@
+using nbot.actions;
+
 namespace nbot.contract
 {
     public interface IBotController
@@ -8,5 +10,6 @@ namespace nbot.contract
 
         void Turn();
         void Wakeup();
+        Point CalculateNextPosition();
     }
 }

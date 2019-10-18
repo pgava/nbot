@@ -7,7 +7,6 @@ namespace nbot.contract
     {
         private IActions actions;
 
-        // TODO: make sure only framework call this method
         internal void SetActions(IActions actions)
         {
             this.actions = actions;

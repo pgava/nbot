@@ -4,6 +4,7 @@
     <ProjectReference Include="..\nbot.samples\nbot.samples.csproj" />
     <ProjectReference Include="..\nbot.engine\nbot.engine.csproj" />
     <ProjectReference Include="..\tests\nbot.engine.test\nbot.engine.test.csproj" />
+    <ProjectReference Include="..\tests\nbot.position.test\nbot.position.test.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

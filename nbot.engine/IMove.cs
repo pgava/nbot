@@ -1,3 +1,5 @@
+using nbot.actions;
+
 namespace nbot.engine
 {
     public enum ItemType
@@ -7,7 +9,18 @@ namespace nbot.engine
     public interface IMove
     {
         ItemType ItemType { get; }
-        int PosX { get; }
-        int PosY { get; }
+        Point Position { get; }
+    }
+
+    public class Move : IMove
+    {
+        public Move(Point position, ItemType itemType)
+        {
+            Position = position;
+            ItemType = ItemType;
+        }
+
+        public Point Position { get; }
+        public ItemType ItemType { get; }
     }
 }

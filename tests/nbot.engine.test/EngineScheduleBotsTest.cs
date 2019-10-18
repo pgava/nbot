@@ -32,7 +32,7 @@ namespace nbot.engine.test
             var botScheduler = new BotScheduler();
             var bots = TestHelper.LoadBots(TestHelper.GetAssembly());
 
-            var botController = new BotController(botScheduler, bots.FirstOrDefault());
+            var botController = new BotController(bots.FirstOrDefault(), botScheduler);
 
             Task doBot = new Task(() => botController.Turn());
             doBot.Start();

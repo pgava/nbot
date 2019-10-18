@@ -1,4 +1,5 @@
 ﻿using System;
+using nbot.actions;
 
 namespace nbot.contract
 {
@@ -12,29 +13,38 @@ namespace nbot.contract
 
     public class BotController : IBotController
     {
-        private readonly IBot bot;
+        private readonly Bot bot;
         private readonly IBotScheduler botScheduler;
         private BotStatus status = BotStatus.Initializing;
 
-        public BotController(IBotScheduler botScheduler, IBot bot)
+        public BotController(Bot bot, IBotScheduler botScheduler)
         {
-            if (botScheduler is null)
-            {
-                throw new ArgumentNullException(nameof(botScheduler));
-            }
-
             if (bot is null)
             {
                 throw new ArgumentNullException(nameof(bot));
             }
 
+            if (botScheduler is null)
+            {
+                throw new ArgumentNullException(nameof(botScheduler));
+            }
+
             this.bot = bot;
             this.botScheduler = botScheduler;
+
+            // this.bot.SetActions(position);
         }
 
         public bool IsRunning => status == BotStatus.Running;
         public bool IsWaiting => status == BotStatus.Waiting;
         public bool IsAlive => status != BotStatus.Terminated;
+
+        bool IBotController.IsRunning => throw new NotImplementedException();
+
+        bool IBotController.IsWaiting => throw new NotImplementedException();
+
+        bool IBotController.IsAlive => throw new NotImplementedException();
+
         public void Turn()
         {
             status = BotStatus.Running;
@@ -57,6 +67,11 @@ namespace nbot.contract
         {
             status = BotStatus.Running;
             botScheduler.Wakeup();
+        }
+
+        public Point CalculateNextPosition()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,3 +1,5 @@
+using System;
+
 namespace nbot.actions
 {
     public struct Point
@@ -9,6 +11,11 @@ namespace nbot.actions
         {
             X = x;
             Y = y;
+        }
+
+        internal static Point Rnd(double width, double height)
+        {
+            throw new NotImplementedException();
         }
     }
 }
