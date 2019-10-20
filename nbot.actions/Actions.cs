@@ -4,15 +4,10 @@ namespace nbot.actions
 {
     public class Actions : IActions
     {
-        private readonly IBotPosition position;
+        private IBotPosition position;
 
-        public Actions(IBotPosition position)
+        public void SetPosition(IBotPosition position)
         {
-            if (position is null)
-            {
-                throw new ArgumentNullException(nameof(position));
-            }
-
             this.position = position;
         }
 

@@ -6,5 +6,7 @@ namespace nbot.actions
         void Back(double d);
         void Right(double d);
         void Left(double d);
+
+        void SetPosition(IBotPosition position);
     }
 }
