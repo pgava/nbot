@@ -15,11 +15,10 @@ namespace nbot.contract
     {
         private readonly Bot bot;
         private readonly IBotScheduler botScheduler;
-        private readonly IMoveActions actions;
-        private readonly IBotPosition position;
+        private readonly IMoveActionsController moveController;
         private BotStatus status = BotStatus.Initializing;
 
-        public BotController(Bot bot, IBotScheduler botScheduler, IMoveActions actions, IBotPosition position)
+        public BotController(Bot bot, IBotScheduler botScheduler, IMoveActionsController moveController)
         {
             if (bot is null)
             {
@@ -31,23 +30,16 @@ namespace nbot.contract
                 throw new ArgumentNullException(nameof(botScheduler));
             }
 
-            if (actions is null)
+            if (moveController is null)
             {
-                throw new ArgumentNullException(nameof(actions));
-            }
-
-            if (position is null)
-            {
-                throw new ArgumentNullException(nameof(position));
+                throw new ArgumentNullException(nameof(moveController));
             }
 
             this.bot = bot;
             this.botScheduler = botScheduler;
-            this.actions = actions;
-            this.position = position;
+            this.moveController = moveController;
 
-            this.actions.SetPosition(position);
-            this.bot.SetActions(this.actions);
+            this.bot.SetActions(this.moveController);
         }
 
         public bool IsRunning => status == BotStatus.Running;
@@ -86,9 +78,9 @@ namespace nbot.contract
 
         public Point CalculateNextPosition()
         {
-            position.CalculateNextPosition();
+            moveController.CalculateNextPosition();
 
-            return position.Position;
+            return moveController.Position;
         }
     }
 }

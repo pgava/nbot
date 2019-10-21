@@ -16,7 +16,7 @@ namespace nbot.engine.test
         public void Can_Calculate_Bot_Position()
         {
             var screenProvider = new PhaserScreenProperties(800, 600, 20);
-            var positionProvider = new BotPosition(300, 100, screenProvider);
+            var positionProvider = new MoveActionsController(300, 100, screenProvider);
             var plays = new List<Play>();
 
             positionProvider.SetMoveAhead(1000);
@@ -58,7 +58,7 @@ namespace nbot.engine.test
             File.WriteAllText("../../../../nbot.ui.tests/phaserjs/nbotdata.js", dumpJsData);
         }
 
-        private static void GenerateMoves(BotPosition positionProvider, List<Play> plays, int min, int max)
+        private static void GenerateMoves(MoveActionsController positionProvider, List<Play> plays, int min, int max)
         {
             for (int turn = min; turn < max; turn++)
             {

@@ -2,11 +2,9 @@ namespace nbot.actions
 {
     public interface IMoveActions
     {
-        void Ahead(double d);
-        void Back(double d);
-        void Right(double d);
-        void Left(double d);
-
-        void SetPosition(IBotPosition position);
+        void SetMoveAhead(double d);
+        void SetMoveBack(double d);
+        void SetMoveRight(double a);
+        void SetMoveLeft(double a);
     }
 }

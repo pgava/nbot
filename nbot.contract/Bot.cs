@@ -23,28 +23,28 @@ namespace nbot.contract
         {
             ThrowIfParameterIsNull(moveActions);
 
-            moveActions.Ahead(d);
+            moveActions.SetMoveAhead(d);
         }
 
         public void Back(double d)
         {
             ThrowIfParameterIsNull(moveActions);
 
-            moveActions.Back(d);
+            moveActions.SetMoveBack(d);
         }
 
         public void Right(double d)
         {
             ThrowIfParameterIsNull(moveActions);
 
-            moveActions.Right(d);
+            moveActions.SetMoveRight(d);
         }
 
         public void Left(double d)
         {
             ThrowIfParameterIsNull(moveActions);
 
-            moveActions.Left(d);
+            moveActions.SetMoveLeft(d);
         }
 
         private void ThrowIfParameterIsNull<T>(T parameter)
