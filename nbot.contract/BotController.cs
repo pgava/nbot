@@ -15,11 +15,11 @@ namespace nbot.contract
     {
         private readonly Bot bot;
         private readonly IBotScheduler botScheduler;
-        private readonly IActions actions;
+        private readonly IMoveActions actions;
         private readonly IBotPosition position;
         private BotStatus status = BotStatus.Initializing;
 
-        public BotController(Bot bot, IBotScheduler botScheduler, IActions actions, IBotPosition position)
+        public BotController(Bot bot, IBotScheduler botScheduler, IMoveActions actions, IBotPosition position)
         {
             if (bot is null)
             {

@@ -2,7 +2,7 @@ using System;
 
 namespace nbot.actions
 {
-    public class Actions : IActions
+    public class Actions : IMoveActions
     {
         private IBotPosition position;
 

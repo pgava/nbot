@@ -3,13 +3,13 @@ using nbot.actions;
 
 namespace nbot.contract
 {
-    public abstract class Bot : IBot, IActions
+    public abstract class Bot : IBot
     {
-        private IActions actions;
+        private IMoveActions moveActions;
 
-        internal void SetActions(IActions actions)
+        internal void SetActions(IMoveActions moveActions)
         {
-            this.actions = actions;
+            this.moveActions = moveActions;
         }
 
         public abstract void PlayTurn();
@@ -21,30 +21,30 @@ namespace nbot.contract
 
         public void Ahead(double d)
         {
-            ThrowIfParameterIsNull(actions);
+            ThrowIfParameterIsNull(moveActions);
 
-            actions.Ahead(d);
+            moveActions.Ahead(d);
         }
 
         public void Back(double d)
         {
-            ThrowIfParameterIsNull(actions);
+            ThrowIfParameterIsNull(moveActions);
 
-            actions.Back(d);
+            moveActions.Back(d);
         }
 
         public void Right(double d)
         {
-            ThrowIfParameterIsNull(actions);
+            ThrowIfParameterIsNull(moveActions);
 
-            actions.Right(d);
+            moveActions.Right(d);
         }
 
         public void Left(double d)
         {
-            ThrowIfParameterIsNull(actions);
+            ThrowIfParameterIsNull(moveActions);
 
-            actions.Left(d);
+            moveActions.Left(d);
         }
 
         private void ThrowIfParameterIsNull<T>(T parameter)
