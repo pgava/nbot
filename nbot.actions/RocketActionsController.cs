@@ -1,9 +1,10 @@
 using System;
+using System.Collections.Generic;
 using nbot.actions.screens;
 
 namespace nbot.actions
 {
-    public class BulletPosition : IBulletPosition
+    public class RocketActionsController : IRocketActionsController
     {
         private const double MAX_ACCELERATION = 10D;
         private const double TIME_SLOT = 2D;
@@ -13,9 +14,11 @@ namespace nbot.actions
         private Point currentPosition;
         private double currentDirection;
         private double currentDistance;
-        public Point Position => currentPosition;
+        
+        private List<IRocket> rocketList = new List<IRocket>();
+        public IEnumerable<IRocket> rockets => rocketList.AsReadOnly();
 
-        public BulletPosition(double x, double y, double direction, IScreenProperties screenProperties)
+        public RocketActionsController(double x, double y, double direction, IScreenProperties screenProperties)
         {
             if (screenProperties is null)
             {
@@ -27,7 +30,7 @@ namespace nbot.actions
             currentDirection = direction;
         }
 
-        public BulletPosition(Point position, double direction, IScreenProperties screenProperties)
+        public RocketActionsController(Point position, double direction, IScreenProperties screenProperties)
         {
             if (screenProperties is null)
             {
@@ -82,5 +85,15 @@ namespace nbot.actions
             return distanceNew;
         }
 
+        public void Fire()
+        {
+            // TODO: check if OK based on how many has already fire
+            rocketList.Add(new Rocket());
+        }
+
+        public void CalculateNextPosition(Point currentBotPosition)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

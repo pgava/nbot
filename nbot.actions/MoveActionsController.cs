@@ -3,7 +3,7 @@ using nbot.actions.screens;
 
 namespace nbot.actions
 {
-    internal class MoveActionsController : IMoveActionsController
+    public class MoveActionsController : IMoveActionsController
     {
         private const double MAX_ACCELERATION = 3D;
         private const double TIME_SLOT = 2D;

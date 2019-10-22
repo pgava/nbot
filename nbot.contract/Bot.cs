@@ -6,10 +6,22 @@ namespace nbot.contract
     public abstract class Bot : IBot
     {
         private IMoveActions moveActions;
+        private IRocketActions rocketActions;
 
-        internal void SetActions(IMoveActions moveActions)
+        internal void SetActions(IMoveActions moveActions, IRocketActions rocketActions)
         {
+            if (moveActions is null)
+            {
+                throw new ArgumentNullException(nameof(moveActions));
+            }
+
+            if (rocketActions is null)
+            {
+                throw new ArgumentNullException(nameof(rocketActions));
+            }
+
             this.moveActions = moveActions;
+            this.rocketActions = rocketActions;
         }
 
         public abstract void PlayTurn();
@@ -45,6 +57,13 @@ namespace nbot.contract
             ThrowIfParameterIsNull(moveActions);
 
             moveActions.SetMoveLeft(d);
+        }
+
+        public void Fire(double d)
+        {
+            ThrowIfParameterIsNull(rocketActions);
+
+            rocketActions.Fire();
         }
 
         private void ThrowIfParameterIsNull<T>(T parameter)
