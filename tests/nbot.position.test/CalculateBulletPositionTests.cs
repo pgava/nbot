@@ -16,7 +16,7 @@ namespace nbot.engine.test
         public void Can_Calculate_Bullet_Position()
         {
             var screenProvider = new PhaserScreenProperties(800, 600, 20);
-            var positionProvider = new RocketActionsController(300, 100, 60, screenProvider);
+            var positionProvider = new Rocket(screenProvider);
             var plays = new List<Play>();
 
             GenerateMoves(positionProvider, plays, 0, 10);
@@ -34,11 +34,11 @@ namespace nbot.engine.test
             File.WriteAllText("../../../../nbot.ui.test/phaserjs/bulletdata.js", dumpJsData);
         }
 
-        private static void GenerateMoves(RocketActionsController positionProvider, List<Play> plays, int min, int max)
+        private static void GenerateMoves(Rocket positionProvider, List<Play> plays, int min, int max)
         {
             for (int turn = min; turn < max; turn++)
             {
-                positionProvider.CalculateNextPosition();
+                positionProvider.CalculateNextPosition(new Vector(300, 100, 60));
                 plays.Add(new Play
                 {
                     Turn = turn,

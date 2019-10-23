@@ -6,7 +6,7 @@ namespace nbot.actions
     {
         IEnumerable<IRocket> rockets { get; }
 
-        void CalculateNextPosition(Point currentBotPosition);
+        void CalculateNextPosition(Vector currentBotPosition);
     }
 
     public interface IRocket
