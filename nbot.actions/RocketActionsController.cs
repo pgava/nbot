@@ -5,31 +5,39 @@ using nbot.actions.screens;
 namespace nbot.actions
 {
     public class RocketActionsController : IRocketActionsController
-    {       
-        private readonly IScreenProperties screenProperties;   
+    {
         private List<IRocket> rocketList = new List<IRocket>();
+        private IHelm helm;
+        private ISpeedometer speedometer;
+
         public IEnumerable<IRocket> rockets => rocketList.AsReadOnly();
 
-        public RocketActionsController(IScreenProperties screenProperties)
+        public RocketActionsController(IHelm helm, ISpeedometer speedometer)
         {
-            if (screenProperties is null)
+            if (helm is null)
             {
-                throw new ArgumentNullException(nameof(screenProperties));
+                throw new ArgumentNullException(nameof(helm));
             }
 
-            this.screenProperties = screenProperties;
+            if (speedometer is null)
+            {
+                throw new ArgumentNullException(nameof(speedometer));
+            }
 
-        }       
+            this.helm = helm;
+            this.speedometer = speedometer;
+        }
 
         public void Fire()
         {
-            // TODO: check if OK based on some predefined rules e.g. how many rocket has already fire?
-            rocketList.Add(new Rocket(screenProperties));
+            // TODO: check if OK based on some predefined rules e.g. how many rocket has already fired?
+
+            rocketList.Add(new Rocket(helm, speedometer));
         }
 
-        public void CalculateNextPosition(Vector currentBotPosition)
+        public void CalculateTrajectories(Vector startAt)
         {
-            throw new NotImplementedException();
+            rocketList.ForEach(r => r.CalculateTrajectory(startAt));
         }
     }
 }

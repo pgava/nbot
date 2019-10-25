@@ -6,11 +6,13 @@ namespace nbot.actions
     {
         IEnumerable<IRocket> rockets { get; }
 
-        void CalculateNextPosition(Vector currentBotPosition);
+        void CalculateTrajectories(Vector startAt);
     }
 
     public interface IRocket
     {
         Point Position { get; }
+
+        void CalculateTrajectory(Vector startAt);
     }
 }

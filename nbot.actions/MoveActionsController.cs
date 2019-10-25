@@ -1,60 +1,73 @@
 using System;
-using nbot.actions.screens;
 
 namespace nbot.actions
 {
     public class MoveActionsController : IMoveActionsController
     {
-        private const double MAX_ACCELERATION = 3D;
-        private const double TIME_SLOT = 2D;
-        private const double MAX_LINEAR_SPEED = 50D;
-        private readonly IScreenProperties screenProperties;
+        private readonly IHelm helm;
+        private readonly ISpeedometer speedometer;
         private double currentLinearSpeed = 0;
         private double currentAngularSpeed = 0;
-        private Point currentPosition;
-        private Point previousPosition;
-        private double currentDirection = 0;
         private double currentDistance = 0;
+        private Vector currentPosition;
         private double forward;
         private double steer;
 
-        public Point Position => currentPosition;
+        public Point Position => currentPosition.Point();
 
-        public MoveActionsController(IScreenProperties screenProperties)
+        public MoveActionsController(IHelm helm, ISpeedometer speedometer)
         {
-            if (screenProperties is null)
+            if (helm is null)
             {
-                throw new ArgumentNullException(nameof(screenProperties));
+                throw new ArgumentNullException(nameof(helm));
             }
 
-            this.screenProperties = screenProperties;
+            if (speedometer is null)
+            {
+                throw new ArgumentNullException(nameof(speedometer));
+            }
 
-            currentPosition = Point.Rnd(this.screenProperties.Width, this.screenProperties.Height);
+            this.helm = helm;
+            this.speedometer = speedometer;
+            this.speedometer.SetLimits(new BotLimits());
+
+            currentPosition = new Vector(helm.RandomPosition(), 0);
 
         }
-        public MoveActionsController(double x, double y, IScreenProperties screenProperties)
+        public MoveActionsController(IHelm helm, ISpeedometer speedometer, double x, double y)
         {
-            if (screenProperties is null)
+            if (helm is null)
             {
-                throw new ArgumentNullException(nameof(screenProperties));
+                throw new ArgumentNullException(nameof(helm));
             }
 
-            this.screenProperties = screenProperties;
+            if (speedometer is null)
+            {
+                throw new ArgumentNullException(nameof(speedometer));
+            }
 
-            currentPosition = new Point(x, y);
+            this.helm = helm;
+            this.speedometer = speedometer;
 
+            currentPosition = new Vector(new Point(x, y), 0);
         }
 
-        public MoveActionsController(Point position, IScreenProperties screenProperties)
+        public MoveActionsController(IHelm helm, ISpeedometer speedometer, Point position)
         {
-            if (screenProperties is null)
+            if (helm is null)
             {
-                throw new ArgumentNullException(nameof(screenProperties));
+                throw new ArgumentNullException(nameof(helm));
             }
 
-            this.screenProperties = screenProperties;
+            if (speedometer is null)
+            {
+                throw new ArgumentNullException(nameof(speedometer));
+            }
 
-            currentPosition = new Point(position.X, position.Y);
+            this.helm = helm;
+            this.speedometer = speedometer;
+
+            currentPosition = new Vector(position, 0);
         }
 
         public void SetMoveAhead(double d)
@@ -87,26 +100,14 @@ namespace nbot.actions
             currentDistance = CalculateDistance();
             currentLinearSpeed = CalculateLinearSpeed();
             currentAngularSpeed = CalculateAngularSpeed(Math.Abs(currentDistance), currentLinearSpeed);
-            currentDirection = CalculateDirection(currentDistance, currentAngularSpeed);
-            currentPosition = CalculatePosition(currentDistance, currentDirection);
+            currentPosition = CalculatePosition(currentDistance);
         }
 
-        private Point CalculatePosition(double distance, double direction)
+        private Vector CalculatePosition(double distance)
         {
-            previousPosition = currentPosition;
+            var direction = CalculateDirection(currentAngularSpeed);
 
-            return screenProperties.CheckLimits(currentPosition,
-                new Point(distance * Math.Cos(DegreeToRadian(direction)), distance * Math.Sin(DegreeToRadian(direction))));
-        }
-
-        private double DegreeToRadian(double degrees)
-        {
-            return Math.PI * degrees / 180.0;
-        }
-
-        private double RadianToDegree(double radians)
-        {
-            return radians * 180.0 / Math.PI;
+            return new Vector(helm.CalculatePosition(currentPosition.Point(), direction, distance), direction);
         }
 
         /// <summary>
@@ -114,7 +115,7 @@ namespace nbot.actions
         /// </summary>
         private double CalculateLinearSpeed()
         {
-            if (currentLinearSpeed >= MAX_LINEAR_SPEED)
+            if (speedometer.HasMaxSpeed(currentLinearSpeed))
             {
                 return currentLinearSpeed;
             }
@@ -124,7 +125,7 @@ namespace nbot.actions
                 return currentLinearSpeed;
             }
 
-            return currentLinearSpeed + MAX_ACCELERATION * TIME_SLOT;
+            return speedometer.CalculateLinearSpeed(currentLinearSpeed);
         }
 
         /// <summary>
@@ -132,7 +133,7 @@ namespace nbot.actions
         /// </summary>
         private double CalculateAngularSpeed(double r, double linearSpeed)
         {
-            return 0.5 * linearSpeed / r;
+            return speedometer.CalculateAngularSpeed(r, linearSpeed);
         }
 
         /// <summary>
@@ -146,8 +147,7 @@ namespace nbot.actions
                 return currentDistance;
             }
 
-            // d = v0*t + 1/2*a*t^2
-            var distanceDelta = currentLinearSpeed * TIME_SLOT + (MAX_ACCELERATION * TIME_SLOT * TIME_SLOT) / 2;
+            var distanceDelta = speedometer.CalculateDistance(currentLinearSpeed);
 
             // Make sure we don't go further than value requested.
             var distanceNew = Math.Min(distanceDelta, Math.Abs(forward));
@@ -165,15 +165,14 @@ namespace nbot.actions
         /// <summary>
         /// @ = w * t
         /// </summary>
-        private double CalculateDirection(double r, double angularSpeed)
+        private double CalculateDirection(double angularSpeed)
         {
             if (steer == 0)
             {
-                return currentDirection;
+                return currentPosition.Direction;
             }
 
-            // @ = w * t
-            var directionDelta = RadianToDegree(angularSpeed * TIME_SLOT);
+            var directionDelta = speedometer.CalculateDirection(angularSpeed);
 
             // Make sure we don't go further than value requested.
             directionDelta = Math.Min(directionDelta, Math.Abs(steer));
@@ -183,7 +182,7 @@ namespace nbot.actions
                 directionDelta *= -1;
             }
 
-            var directionNew = currentDirection + directionDelta;
+            var directionNew = currentPosition.Direction + directionDelta;
 
             // Direction value is between 0-360. If the value is negative get the complement angle.
             if (directionNew < 0)

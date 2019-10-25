@@ -16,7 +16,9 @@ namespace nbot.engine.test
         public void Can_Calculate_Bullet_Position()
         {
             var screenProvider = new PhaserScreenProperties(800, 600, 20);
-            var positionProvider = new Rocket(screenProvider);
+            var helm = new Helm(screenProvider);
+            var speedometer = new Speedometer();
+            var positionProvider = new Rocket(helm, speedometer);
             var plays = new List<Play>();
 
             GenerateMoves(positionProvider, plays, 0, 10);
@@ -38,7 +40,7 @@ namespace nbot.engine.test
         {
             for (int turn = min; turn < max; turn++)
             {
-                positionProvider.CalculateNextPosition(new Vector(300, 100, 60));
+                positionProvider.CalculateTrajectory(new Vector(300, 100, 60));
                 plays.Add(new Play
                 {
                     Turn = turn,

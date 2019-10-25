@@ -16,7 +16,9 @@ namespace nbot.engine.test
         public void Can_Calculate_Bot_Position()
         {
             var screenProvider = new PhaserScreenProperties(800, 600, 20);
-            var positionProvider = new MoveActionsController(300, 100, screenProvider);
+            var helm = new Helm(screenProvider);
+            var speedometer = new Speedometer();
+            var positionProvider = new MoveActionsController(helm, speedometer, 300, 100);
             var plays = new List<Play>();
 
             positionProvider.SetMoveAhead(1000);

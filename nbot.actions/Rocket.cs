@@ -11,33 +11,39 @@ namespace nbot.actions
 
     public class Rocket : IRocket
     {
-        private const double MAX_ACCELERATION = 10D;
-        private const double TIME_SLOT = 2D;
-        private const double MAX_LINEAR_SPEED = 100D;
-        private readonly IScreenProperties screenProperties;
+        private readonly IHelm helm;
+        private readonly ISpeedometer speedometer;
         private double currentLinearSpeed;
         private Vector currentPosition;
         private RocketStatus status = RocketStatus.Fired;
 
         public Point Position => currentPosition.Point();
 
-        public Rocket(IScreenProperties screenProperties)
+        public Rocket(IHelm helm, ISpeedometer speedometer)
         {
-            if (screenProperties is null)
+            if (helm is null)
             {
-                throw new ArgumentNullException(nameof(screenProperties));
+                throw new ArgumentNullException(nameof(helm));
             }
 
-            this.screenProperties = screenProperties;
+            if (speedometer is null)
+            {
+                throw new ArgumentNullException(nameof(speedometer));
+            }
+
+            this.helm = helm;
+            this.speedometer = speedometer;
+            this.speedometer.SetLimits(new RocketLimits());
+
         }
 
-        public void CalculateNextPosition(Vector currentBotPosition)
+        public void CalculateTrajectory(Vector startAt)
         {
             if (status == RocketStatus.Fired)
             {
                 status = RocketStatus.OnTheWay;
-                currentPosition = currentBotPosition;
-                return; 
+                currentPosition = startAt;
+                return;
             }
 
             var currentDistance = CalculateDistance();
@@ -47,14 +53,7 @@ namespace nbot.actions
 
         private Vector CalculatePosition(double distance)
         {
-            return new Vector(screenProperties.CheckLimits(currentPosition.Point(),
-                                new Point(distance * Math.Cos(DegreeToRadian(currentPosition.Direction)), distance * Math.Sin(DegreeToRadian(currentPosition.Direction))), false),
-                              currentPosition.Direction);
-        }
-
-        private double DegreeToRadian(double degrees)
-        {
-            return Math.PI * degrees / 180.0;
+            return new Vector(helm.CalculatePosition(currentPosition.Point(), currentPosition.Direction, distance), currentPosition.Direction);
         }
 
         /// <summary>
@@ -62,12 +61,12 @@ namespace nbot.actions
         /// </summary>
         private double CalculateLinearSpeed()
         {
-            if (currentLinearSpeed >= MAX_LINEAR_SPEED)
+            if (speedometer.HasMaxSpeed(currentLinearSpeed))
             {
                 return currentLinearSpeed;
             }
 
-            return currentLinearSpeed + MAX_ACCELERATION * TIME_SLOT;
+            return speedometer.CalculateLinearSpeed(currentLinearSpeed);
         }
 
         /// <summary>
@@ -77,7 +76,7 @@ namespace nbot.actions
         {
 
             // d = v0*t + 1/2*a*t^2
-            var distanceNew = currentLinearSpeed * TIME_SLOT + (MAX_ACCELERATION * TIME_SLOT * TIME_SLOT) / 2;
+            var distanceNew = speedometer.CalculateDistance(currentLinearSpeed);
 
             return distanceNew;
         }

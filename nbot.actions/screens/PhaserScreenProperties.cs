@@ -18,15 +18,15 @@
 
         public Point CheckLimits(Point current, Point next, bool canBounce)
         {
-            bool hasLImit;
-            var x = HorizontalLimit(current.X, next.X, out hasLImit);
-            if (hasLImit && !canBounce)
+            bool hasLimit;
+            var x = HorizontalLimit(current.X, next.X, out hasLimit);
+            if (hasLimit && !canBounce)
             {
                 return new Point(x, current.Y);
             }
 
-            var y = HorizontalLimit(current.Y, next.Y, out hasLImit);
-            if (hasLImit && !canBounce)
+            var y = HorizontalLimit(current.Y, next.Y, out hasLimit);
+            if (hasLimit && !canBounce)
             {
                 return new Point(current.X, y);
             }
