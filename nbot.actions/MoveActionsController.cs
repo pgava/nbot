@@ -13,7 +13,7 @@ namespace nbot.actions
         private double forward;
         private double steer;
 
-        public Point Position => currentPosition.Point();
+        public Vector Position => currentPosition;
 
         public MoveActionsController(IHelm helm, ISpeedometer speedometer)
         {
@@ -110,9 +110,6 @@ namespace nbot.actions
             return new Vector(helm.CalculatePosition(currentPosition.Point(), direction, distance), direction);
         }
 
-        /// <summary>
-        /// v = v0 + at
-        /// </summary>
         private double CalculateLinearSpeed()
         {
             if (speedometer.HasMaxSpeed(currentLinearSpeed))
@@ -128,17 +125,11 @@ namespace nbot.actions
             return speedometer.CalculateLinearSpeed(currentLinearSpeed);
         }
 
-        /// <summary>
-        /// v = v0 + at
-        /// </summary>
         private double CalculateAngularSpeed(double r, double linearSpeed)
         {
             return speedometer.CalculateAngularSpeed(r, linearSpeed);
         }
 
-        /// <summary>
-        /// d = v0*t + 1/2*a*t^2
-        /// </summary>
         private double CalculateDistance()
         {
             // If we are turning keep distance fixed.
@@ -162,9 +153,6 @@ namespace nbot.actions
             return distanceNew;
         }
 
-        /// <summary>
-        /// @ = w * t
-        /// </summary>
         private double CalculateDirection(double angularSpeed)
         {
             if (steer == 0)

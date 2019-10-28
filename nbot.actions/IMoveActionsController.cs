@@ -2,7 +2,7 @@ namespace nbot.actions
 {
     public interface IMoveActionsController : IMoveActions
     {
-        Point Position { get; }
+        Vector Position { get; }
         void CalculateNextPosition();
     }
 }

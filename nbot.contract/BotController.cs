@@ -87,7 +87,10 @@ namespace nbot.contract
         {
             moveController.CalculateNextPosition();
 
-            return moveController.Position;
+            // TODO: define structure for rockets
+            rocketController.CalculateTrajectories(moveController.Position);
+
+            return moveController.Position.Point();
         }
     }
 }

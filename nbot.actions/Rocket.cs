@@ -56,9 +56,6 @@ namespace nbot.actions
             return new Vector(helm.CalculatePosition(currentPosition.Point(), currentPosition.Direction, distance), currentPosition.Direction);
         }
 
-        /// <summary>
-        /// v = v0 + at
-        /// </summary>
         private double CalculateLinearSpeed()
         {
             if (speedometer.HasMaxSpeed(currentLinearSpeed))
@@ -69,13 +66,9 @@ namespace nbot.actions
             return speedometer.CalculateLinearSpeed(currentLinearSpeed);
         }
 
-        /// <summary>
-        /// d = v0*t + 1/2*a*t^2
-        /// </summary>
         private double CalculateDistance()
         {
 
-            // d = v0*t + 1/2*a*t^2
             var distanceNew = speedometer.CalculateDistance(currentLinearSpeed);
 
             return distanceNew;
