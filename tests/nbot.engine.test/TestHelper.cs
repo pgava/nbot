@@ -15,7 +15,7 @@ namespace nbot.engine.test
         {
             // LoadFromAssemblyPath requires full path
             var curDir = Directory.GetCurrentDirectory();
-            var path = Path.Combine(curDir, "../../../../nbot.samples/bin/Debug/netstandard2.0/nbot.samples.dll");
+            var path = Path.Combine(curDir, "../../../../../nbot.samples/bin/Debug/net5.0/nbot.samples.dll");
 
             return path;
         }

@@ -7,12 +7,6 @@ namespace nbot.actions
         string Name { get; }
         Point Position { get; }
 
-        IEnumerable<IRocketrecord> Rockets { get; }
-    }
-
-    public interface IRocketrecord
-    {
-        string Name { get; }
-        Point Position { get; }
+        IEnumerable<IRocketRecord> Rockets { get; }
     }
 }
