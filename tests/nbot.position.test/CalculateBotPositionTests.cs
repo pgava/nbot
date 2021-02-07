@@ -15,31 +15,31 @@ namespace nbot.engine.test
         [Fact]
         public void Can_Calculate_Bot_Position()
         {
-            var screenProvider = new PhaserScreenProperties(800, 600, 20);
-            var helm = new Helm(screenProvider);
+            var screenProvider = new PhaserScreen(800, 600, 20);
+            var positionProvider = new PositionProvider(screenProvider);
             var speedometer = new Speedometer();
-            var positionProvider = new MoveActionsController(helm, speedometer, 300, 100);
+            var moveAction = new MoveActionsController(positionProvider, speedometer, 300, 100);
             var plays = new List<Play>();
 
-            positionProvider.SetMoveAhead(1000);
+            moveAction.SetMoveAhead(1000);
 
-            GenerateMoves(positionProvider, plays, 0, 5);
+            GenerateMoves(moveAction, plays, 0, 5);
 
-            positionProvider.SetMoveRight(360);
+            moveAction.SetMoveRight(360);
 
-            GenerateMoves(positionProvider, plays, 5, 15);
+            GenerateMoves(moveAction, plays, 5, 15);
 
-            positionProvider.SetMoveRight(360);
+            moveAction.SetMoveRight(360);
 
-            GenerateMoves(positionProvider, plays, 15, 25);
+            GenerateMoves(moveAction, plays, 15, 25);
 
-            positionProvider.SetMoveRight(90);
+            moveAction.SetMoveRight(90);
 
-            GenerateMoves(positionProvider, plays, 25, 30);
+            GenerateMoves(moveAction, plays, 25, 30);
 
-            positionProvider.SetMoveRight(45);
+            moveAction.SetMoveRight(45);
 
-            GenerateMoves(positionProvider, plays, 30, 35);
+            GenerateMoves(moveAction, plays, 30, 35);
 
             // GenerateMoves(positionProvider, plays, 10, 15);
 

@@ -1,12 +1,12 @@
 ﻿namespace nbot.actions.screens
 {
-    public class PhaserScreenProperties : IScreenProperties
+    public class PhaserScreen : IScreen
     {
         private readonly double width;
         private readonly double height;
         private readonly double border;
 
-        public PhaserScreenProperties(double width, double height, double border)
+        public PhaserScreen(double width, double height, double border)
         {
             this.width = width;
             this.height = height;
@@ -16,7 +16,7 @@
 
         public double Height => height;
 
-        public Point CheckLimits(Point current, Point next, bool canBounce)
+        public Point MapNextPointToScreen(Point current, Point next, bool canBounce)
         {
             bool hasLimit;
             var x = HorizontalLimit(current.X, next.X, out hasLimit);
@@ -25,7 +25,7 @@
                 return new Point(x, current.Y);
             }
 
-            var y = HorizontalLimit(current.Y, next.Y, out hasLimit);
+            var y = VeriticalLimit(current.Y, next.Y, out hasLimit);
             if (hasLimit && !canBounce)
             {
                 return new Point(current.X, y);

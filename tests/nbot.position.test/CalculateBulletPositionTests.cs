@@ -15,13 +15,13 @@ namespace nbot.engine.test
         [Fact]
         public void Can_Calculate_Bullet_Position()
         {
-            var screenProvider = new PhaserScreenProperties(800, 600, 20);
-            var helm = new Helm(screenProvider);
+            var screenProvider = new PhaserScreen(800, 600, 20);
+            var positionProvider = new PositionProvider(screenProvider);
             var speedometer = new Speedometer();
-            var positionProvider = new Rocket(helm, speedometer);
+            var rocket = new Rocket(positionProvider, speedometer);
             var plays = new List<Play>();
 
-            GenerateMoves(positionProvider, plays, 0, 10);
+            GenerateMoves(rocket, plays, 0, 10);
 
             DumpMoves(plays);
         }

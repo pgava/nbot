@@ -11,7 +11,7 @@ namespace nbot.actions
 
     public class Rocket : IRocket
     {
-        private readonly IHelm helm;
+        private readonly IPositionProvider positionProvider;
         private readonly ISpeedometer speedometer;
         private double currentLinearSpeed;
         private Vector currentPosition;
@@ -19,11 +19,11 @@ namespace nbot.actions
 
         public Point Position => currentPosition.Point();
 
-        public Rocket(IHelm helm, ISpeedometer speedometer)
+        public Rocket(IPositionProvider positionProvider, ISpeedometer speedometer)
         {
-            if (helm is null)
+            if (positionProvider is null)
             {
-                throw new ArgumentNullException(nameof(helm));
+                throw new ArgumentNullException(nameof(positionProvider));
             }
 
             if (speedometer is null)
@@ -31,7 +31,7 @@ namespace nbot.actions
                 throw new ArgumentNullException(nameof(speedometer));
             }
 
-            this.helm = helm;
+            this.positionProvider = positionProvider;
             this.speedometer = speedometer;
             this.speedometer.SetLimits(new RocketLimits());
 
@@ -53,7 +53,7 @@ namespace nbot.actions
 
         private Vector CalculatePosition(double distance)
         {
-            return new Vector(helm.CalculatePosition(currentPosition.Point(), currentPosition.Direction, distance), currentPosition.Direction);
+            return new Vector(positionProvider.CalculatePosition(currentPosition.Point(), currentPosition.Direction, distance), currentPosition.Direction);
         }
 
         private double CalculateLinearSpeed()

@@ -16,6 +16,6 @@ namespace nbot.actions
         internal static Point Rnd(double width, double height)
         {
             throw new NotImplementedException();
-        }
+        }        
     }
 }

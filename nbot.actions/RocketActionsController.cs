@@ -7,16 +7,16 @@ namespace nbot.actions
     public class RocketActionsController : IRocketActionsController
     {
         private List<IRocket> rocketList = new List<IRocket>();
-        private IHelm helm;
+        private IPositionProvider positionProvider;
         private ISpeedometer speedometer;
 
         public IEnumerable<IRocket> rockets => rocketList.AsReadOnly();
 
-        public RocketActionsController(IHelm helm, ISpeedometer speedometer)
+        public RocketActionsController(IPositionProvider positionProvider, ISpeedometer speedometer)
         {
-            if (helm is null)
+            if (positionProvider is null)
             {
-                throw new ArgumentNullException(nameof(helm));
+                throw new ArgumentNullException(nameof(positionProvider));
             }
 
             if (speedometer is null)
@@ -24,7 +24,7 @@ namespace nbot.actions
                 throw new ArgumentNullException(nameof(speedometer));
             }
 
-            this.helm = helm;
+            this.positionProvider = positionProvider;
             this.speedometer = speedometer;
         }
 
@@ -32,7 +32,7 @@ namespace nbot.actions
         {
             // TODO: check if OK based on some predefined rules e.g. how many rocket has already fired?
 
-            rocketList.Add(new Rocket(helm, speedometer));
+            rocketList.Add(new Rocket(positionProvider, speedometer));
         }
 
         public void CalculateTrajectories(Vector startAt)

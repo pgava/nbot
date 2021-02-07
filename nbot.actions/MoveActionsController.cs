@@ -4,7 +4,7 @@ namespace nbot.actions
 {
     public class MoveActionsController : IMoveActionsController
     {
-        private readonly IHelm helm;
+        private readonly IPositionProvider positionProvider;
         private readonly ISpeedometer speedometer;
         private double currentLinearSpeed = 0;
         private double currentAngularSpeed = 0;
@@ -15,11 +15,11 @@ namespace nbot.actions
 
         public Vector Position => currentPosition;
 
-        public MoveActionsController(IHelm helm, ISpeedometer speedometer)
+        public MoveActionsController(IPositionProvider positionProvider, ISpeedometer speedometer)
         {
-            if (helm is null)
+            if (positionProvider is null)
             {
-                throw new ArgumentNullException(nameof(helm));
+                throw new ArgumentNullException(nameof(positionProvider));
             }
 
             if (speedometer is null)
@@ -27,18 +27,18 @@ namespace nbot.actions
                 throw new ArgumentNullException(nameof(speedometer));
             }
 
-            this.helm = helm;
+            this.positionProvider = positionProvider;
             this.speedometer = speedometer;
             this.speedometer.SetLimits(new BotLimits());
 
-            currentPosition = new Vector(helm.RandomPosition(), 0);
+            currentPosition = new Vector(positionProvider.RandomPosition(), 0);
 
         }
-        public MoveActionsController(IHelm helm, ISpeedometer speedometer, double x, double y)
+        public MoveActionsController(IPositionProvider positionProvider, ISpeedometer speedometer, double x, double y)
         {
-            if (helm is null)
+            if (positionProvider is null)
             {
-                throw new ArgumentNullException(nameof(helm));
+                throw new ArgumentNullException(nameof(positionProvider));
             }
 
             if (speedometer is null)
@@ -46,17 +46,17 @@ namespace nbot.actions
                 throw new ArgumentNullException(nameof(speedometer));
             }
 
-            this.helm = helm;
+            this.positionProvider = positionProvider;
             this.speedometer = speedometer;
 
             currentPosition = new Vector(new Point(x, y), 0);
         }
 
-        public MoveActionsController(IHelm helm, ISpeedometer speedometer, Point position)
+        public MoveActionsController(IPositionProvider positionProvider, ISpeedometer speedometer, Point position)
         {
-            if (helm is null)
+            if (positionProvider is null)
             {
-                throw new ArgumentNullException(nameof(helm));
+                throw new ArgumentNullException(nameof(positionProvider));
             }
 
             if (speedometer is null)
@@ -64,7 +64,7 @@ namespace nbot.actions
                 throw new ArgumentNullException(nameof(speedometer));
             }
 
-            this.helm = helm;
+            this.positionProvider = positionProvider;
             this.speedometer = speedometer;
 
             currentPosition = new Vector(position, 0);
@@ -107,7 +107,7 @@ namespace nbot.actions
         {
             var direction = CalculateDirection(currentAngularSpeed);
 
-            return new Vector(helm.CalculatePosition(currentPosition.Point(), direction, distance), direction);
+            return new Vector(positionProvider.CalculatePosition(currentPosition.Point(), direction, distance), direction);
         }
 
         private double CalculateLinearSpeed()
