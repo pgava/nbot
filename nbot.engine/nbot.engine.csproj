@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <ProjectReference Include="..\nbot.common\nbot.common.csproj" />
     <ProjectReference Include="..\nbot.samples\nbot.samples.csproj" />
     <ProjectReference Include="..\nbot.contract\nbot.contract.csproj" />
     <ProjectReference Include="..\nbot.actions\nbot.actions.csproj" />

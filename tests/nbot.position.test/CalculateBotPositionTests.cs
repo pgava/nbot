@@ -21,23 +21,23 @@ namespace nbot.engine.test
             var moveAction = new MoveActionsController(positionProvider, speedometer, 300, 100);
             var plays = new List<Play>();
 
-            moveAction.SetMoveAhead(1000);
+            moveAction.MoveAhead(1000);
 
             GenerateMoves(moveAction, plays, 0, 5);
 
-            moveAction.SetMoveRight(360);
+            moveAction.TurnRight(360);
 
             GenerateMoves(moveAction, plays, 5, 15);
 
-            moveAction.SetMoveRight(360);
+            moveAction.TurnRight(360);
 
             GenerateMoves(moveAction, plays, 15, 25);
 
-            moveAction.SetMoveRight(90);
+            moveAction.TurnRight(90);
 
             GenerateMoves(moveAction, plays, 25, 30);
 
-            moveAction.SetMoveRight(45);
+            moveAction.TurnRight(45);
 
             GenerateMoves(moveAction, plays, 30, 35);
 

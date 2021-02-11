@@ -1,5 +1,6 @@
 ﻿using System;
 using nbot.actions;
+using nbot.common;
 
 namespace nbot.contract
 {
@@ -10,15 +11,8 @@ namespace nbot.contract
 
         internal void SetActions(IMoveActions moveActions, IRocketActions rocketActions)
         {
-            if (moveActions is null)
-            {
-                throw new ArgumentNullException(nameof(moveActions));
-            }
-
-            if (rocketActions is null)
-            {
-                throw new ArgumentNullException(nameof(rocketActions));
-            }
+            Validation.ThrowIfArgumentIsNull(moveActions);
+            Validation.ThrowIfArgumentIsNull(rocketActions);            
 
             this.moveActions = moveActions;
             this.rocketActions = rocketActions;
@@ -33,45 +27,38 @@ namespace nbot.contract
 
         public void Ahead(double d)
         {
-            ThrowIfParameterIsNull(moveActions);
+            Validation.ThrowIfArgumentIsNull(moveActions);
 
-            moveActions.SetMoveAhead(d);
+            moveActions.MoveAhead(d);
         }
 
         public void Back(double d)
         {
-            ThrowIfParameterIsNull(moveActions);
+            Validation.ThrowIfArgumentIsNull(moveActions);
 
-            moveActions.SetMoveBack(d);
+            moveActions.MoveBack(d);
         }
 
         public void Right(double d)
         {
-            ThrowIfParameterIsNull(moveActions);
+            Validation.ThrowIfArgumentIsNull(moveActions);
 
-            moveActions.SetMoveRight(d);
+            moveActions.TurnRight(d);
         }
 
         public void Left(double d)
         {
-            ThrowIfParameterIsNull(moveActions);
+            Validation.ThrowIfArgumentIsNull(moveActions);
 
-            moveActions.SetMoveLeft(d);
+            moveActions.TurnLeft(d);
         }
 
         public void Fire(double d)
         {
-            ThrowIfParameterIsNull(rocketActions);
+            Validation.ThrowIfArgumentIsNull(rocketActions);
 
             rocketActions.Fire();
         }
 
-        private void ThrowIfParameterIsNull<T>(T parameter)
-        {
-            if (parameter == null)
-            {
-                throw new ArgumentNullException();
-            }
-        }
     }
 }

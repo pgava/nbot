@@ -16,56 +16,40 @@
 
         public double Height => height;
 
-        public Point MapNextPointToScreen(Point current, Point next, bool canBounce)
+        public Point MapNextPointToScreen(Point current, Point next)
         {
-            bool hasLimit;
-            var x = HorizontalLimit(current.X, next.X, out hasLimit);
-            if (hasLimit && !canBounce)
-            {
-                return new Point(x, current.Y);
-            }
-
-            var y = VeriticalLimit(current.Y, next.Y, out hasLimit);
-            if (hasLimit && !canBounce)
-            {
-                return new Point(current.X, y);
-            }
+            var x = HorizontalLimit(current.X, next.X);
+            var y = VeriticalLimit(current.Y, next.Y);
 
             return new Point(x, y);
         }
 
-        private double HorizontalLimit(double curX, double x, out bool hasLimit)
+        private double HorizontalLimit(double curX, double x)
         {
             var newX = curX + x;
             if (newX > width)
             {
-                hasLimit = true;
                 return width - border;
             }
             if (newX < 0)
             {
-                hasLimit = true;
                 return 0 + border;
             }
 
-            hasLimit = false;
             return newX;
         }
-        private double VeriticalLimit(double curY, double y, out bool hasLimit)
+        private double VeriticalLimit(double curY, double y)
         {
             var newY = curY + y;
             if (newY > height)
             {
-                hasLimit = true;
                 return height - border;
             }
             if (newY < 0)
             {
-                hasLimit = true;
                 return 0 + border;
             }
 
-            hasLimit = false;
             return newY;
         }
     }

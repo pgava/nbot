@@ -1,4 +1,5 @@
 using System;
+using nbot.common;
 
 namespace nbot.actions
 {
@@ -23,22 +24,20 @@ namespace nbot.actions
         double MaxLinearSpeed { get; }
     }
 
-    public class Speedometer : ISpeedometer
+    public class MovementManager : IMovementManager
     {
         private ILimits limits;
 
         public void SetLimits(ILimits limits)
         {
-            if (limits is null)
-            {
-                throw new ArgumentNullException(nameof(limits));
-            }
+            Validation.ThrowIfArgumentIsNull(limits);
 
             this.limits = limits;
         }
-        public bool HasMaxSpeed(double speed)
+        
+        public bool HasReachedMaxSpeed(double speed)
         {
-            ThrowIfParameterIsNull(limits);
+            Validation.ThrowIfArgumentIsNull(limits);
 
             return speed >= limits.MaxLinearSpeed;
         }
@@ -48,7 +47,7 @@ namespace nbot.actions
         /// </summary>
         public double CalculateLinearSpeed(double speed)
         {
-            ThrowIfParameterIsNull(limits);
+            Validation.ThrowIfArgumentIsNull(limits);
 
             return speed + limits.MaxAcceleration * limits.TimeSlot;
         }
@@ -58,7 +57,7 @@ namespace nbot.actions
         /// </summary>
         public double CalculateAngularSpeed(double r, double linearSpeed)
         {
-            return 0.5 * linearSpeed / r;
+            return linearSpeed / r;
         }
 
         /// <summary>
@@ -66,9 +65,9 @@ namespace nbot.actions
         /// </summary>
         public double CalculateDistance(double speed)
         {
-            ThrowIfParameterIsNull(limits);
+            Validation.ThrowIfArgumentIsNull(limits);
 
-            return speed * limits.TimeSlot + (limits.MaxAcceleration * limits.TimeSlot * limits.TimeSlot) / 2;
+            return speed * limits.TimeSlot + (limits.MaxAcceleration * Math.Pow(limits.TimeSlot, 2)) / 2;
         }
 
         /// <summary>
@@ -76,23 +75,11 @@ namespace nbot.actions
         /// </summary>
         public double CalculateDirection(double angularSpeed)
         {
-            ThrowIfParameterIsNull(limits);
+            Validation.ThrowIfArgumentIsNull(limits);
             
             // @ = w * t
-            return RadianToDegree(angularSpeed * limits.TimeSlot);
+            return NBotMath.RadianToDegree(angularSpeed * limits.TimeSlot);
         }
-
-        private double RadianToDegree(double radians)
-        {
-            return radians * 180.0 / Math.PI;
-        }
-
-        private void ThrowIfParameterIsNull<T>(T parameter)
-        {
-            if (parameter == null)
-            {
-                throw new ArgumentNullException();
-            }
-        }
+       
     }
 }

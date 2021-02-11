@@ -12,14 +12,14 @@ namespace nbot.actions
     public class Rocket : IRocket
     {
         private readonly IPositionProvider positionProvider;
-        private readonly ISpeedometer speedometer;
+        private readonly IMovementManager speedometer;
         private double currentLinearSpeed;
         private Vector currentPosition;
         private RocketStatus status = RocketStatus.Fired;
 
         public Point Position => currentPosition.Point();
 
-        public Rocket(IPositionProvider positionProvider, ISpeedometer speedometer)
+        public Rocket(IPositionProvider positionProvider, IMovementManager speedometer)
         {
             if (positionProvider is null)
             {
@@ -58,7 +58,7 @@ namespace nbot.actions
 
         private double CalculateLinearSpeed()
         {
-            if (speedometer.HasMaxSpeed(currentLinearSpeed))
+            if (speedometer.HasReachedMaxSpeed(currentLinearSpeed))
             {
                 return currentLinearSpeed;
             }

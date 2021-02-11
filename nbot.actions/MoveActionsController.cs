@@ -1,11 +1,12 @@
 using System;
+using nbot.common;
 
 namespace nbot.actions
 {
     public class MoveActionsController : IMoveActionsController
     {
         private readonly IPositionProvider positionProvider;
-        private readonly ISpeedometer speedometer;
+        private readonly IMovementManager speedometer;
         private double currentLinearSpeed = 0;
         private double currentAngularSpeed = 0;
         private double currentDistance = 0;
@@ -15,17 +16,10 @@ namespace nbot.actions
 
         public Vector Position => currentPosition;
 
-        public MoveActionsController(IPositionProvider positionProvider, ISpeedometer speedometer)
+        public MoveActionsController(IPositionProvider positionProvider, IMovementManager speedometer)
         {
-            if (positionProvider is null)
-            {
-                throw new ArgumentNullException(nameof(positionProvider));
-            }
-
-            if (speedometer is null)
-            {
-                throw new ArgumentNullException(nameof(speedometer));
-            }
+            Validation.ThrowIfArgumentIsNull(positionProvider);
+            Validation.ThrowIfArgumentIsNull(speedometer);
 
             this.positionProvider = positionProvider;
             this.speedometer = speedometer;
@@ -34,17 +28,10 @@ namespace nbot.actions
             currentPosition = new Vector(positionProvider.RandomPosition(), 0);
 
         }
-        public MoveActionsController(IPositionProvider positionProvider, ISpeedometer speedometer, double x, double y)
+        public MoveActionsController(IPositionProvider positionProvider, IMovementManager speedometer, double x, double y)
         {
-            if (positionProvider is null)
-            {
-                throw new ArgumentNullException(nameof(positionProvider));
-            }
-
-            if (speedometer is null)
-            {
-                throw new ArgumentNullException(nameof(speedometer));
-            }
+            Validation.ThrowIfArgumentIsNull(positionProvider);
+            Validation.ThrowIfArgumentIsNull(speedometer);
 
             this.positionProvider = positionProvider;
             this.speedometer = speedometer;
@@ -52,17 +39,10 @@ namespace nbot.actions
             currentPosition = new Vector(new Point(x, y), 0);
         }
 
-        public MoveActionsController(IPositionProvider positionProvider, ISpeedometer speedometer, Point position)
+        public MoveActionsController(IPositionProvider positionProvider, IMovementManager speedometer, Point position)
         {
-            if (positionProvider is null)
-            {
-                throw new ArgumentNullException(nameof(positionProvider));
-            }
-
-            if (speedometer is null)
-            {
-                throw new ArgumentNullException(nameof(speedometer));
-            }
+            Validation.ThrowIfArgumentIsNull(positionProvider);
+            Validation.ThrowIfArgumentIsNull(speedometer);
 
             this.positionProvider = positionProvider;
             this.speedometer = speedometer;
@@ -70,26 +50,26 @@ namespace nbot.actions
             currentPosition = new Vector(position, 0);
         }
 
-        public void SetMoveAhead(double d)
+        public void MoveAhead(double d)
         {
             forward = d;
         }
 
-        public void SetMoveBack(double d)
+        public void MoveBack(double d)
         {
             forward = -d;
         }
 
-        public void SetMoveRight(double d)
+        public void TurnRight(double d)
         {
             steer = d;
         }
 
-        public void SetMoveLeft(double d)
+        public void TurnLeft(double d)
         {
             steer = -d;
         }
-
+        
         public void CalculateNextPosition()
         {
             if (forward == 0)
@@ -112,7 +92,7 @@ namespace nbot.actions
 
         private double CalculateLinearSpeed()
         {
-            if (speedometer.HasMaxSpeed(currentLinearSpeed))
+            if (speedometer.HasReachedMaxSpeed(currentLinearSpeed))
             {
                 return currentLinearSpeed;
             }
