@@ -8,11 +8,11 @@ namespace nbot.actions
     {
         private List<IRocket> rocketList = new List<IRocket>();
         private IPositionProvider positionProvider;
-        private IMovementManager speedometer;
+        private IMovementController speedometer;
 
         public IEnumerable<IRocket> rockets => rocketList.AsReadOnly();
 
-        public RocketActionsController(IPositionProvider positionProvider, IMovementManager speedometer)
+        public RocketActionsController(IPositionProvider positionProvider, IMovementController speedometer)
         {
             if (positionProvider is null)
             {

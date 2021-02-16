@@ -17,14 +17,7 @@ namespace nbot.actions
         public double MaxLinearSpeed => 100D;
     }
 
-    public interface ILimits
-    {
-        double MaxAcceleration { get; }
-        double TimeSlot { get; }
-        double MaxLinearSpeed { get; }
-    }
-
-    public class MovementManager : IMovementManager
+    public class MovementController : IMovementController
     {
         private ILimits limits;
 

@@ -6,46 +6,46 @@ namespace nbot.actions
     public class MoveActionsController : IMoveActionsController
     {
         private readonly IPositionProvider positionProvider;
-        private readonly IMovementManager speedometer;
+        private readonly IMovementController movementController;
+        private double forward;
+        private double steer;
         private double currentLinearSpeed = 0;
         private double currentAngularSpeed = 0;
         private double currentDistance = 0;
         private Vector currentPosition;
-        private double forward;
-        private double steer;
 
         public Vector Position => currentPosition;
 
-        public MoveActionsController(IPositionProvider positionProvider, IMovementManager speedometer)
+        public MoveActionsController(IPositionProvider positionProvider, IMovementController movementController)
         {
             Validation.ThrowIfArgumentIsNull(positionProvider);
-            Validation.ThrowIfArgumentIsNull(speedometer);
+            Validation.ThrowIfArgumentIsNull(movementController);
 
             this.positionProvider = positionProvider;
-            this.speedometer = speedometer;
-            this.speedometer.SetLimits(new BotLimits());
+            this.movementController = movementController;
+            this.movementController.SetLimits(new BotLimits());
 
             currentPosition = new Vector(positionProvider.RandomPosition(), 0);
 
         }
-        public MoveActionsController(IPositionProvider positionProvider, IMovementManager speedometer, double x, double y)
+        public MoveActionsController(IPositionProvider positionProvider, IMovementController movementController, double x, double y)
         {
             Validation.ThrowIfArgumentIsNull(positionProvider);
-            Validation.ThrowIfArgumentIsNull(speedometer);
+            Validation.ThrowIfArgumentIsNull(movementController);
 
             this.positionProvider = positionProvider;
-            this.speedometer = speedometer;
+            this.movementController = movementController;
 
             currentPosition = new Vector(new Point(x, y), 0);
         }
 
-        public MoveActionsController(IPositionProvider positionProvider, IMovementManager speedometer, Point position)
+        public MoveActionsController(IPositionProvider positionProvider, IMovementController movementController, Point position)
         {
             Validation.ThrowIfArgumentIsNull(positionProvider);
-            Validation.ThrowIfArgumentIsNull(speedometer);
+            Validation.ThrowIfArgumentIsNull(movementController);
 
             this.positionProvider = positionProvider;
-            this.speedometer = speedometer;
+            this.movementController = movementController;
 
             currentPosition = new Vector(position, 0);
         }
@@ -77,7 +77,7 @@ namespace nbot.actions
                 return;
             }
 
-            currentDistance = CalculateDistance();
+            currentDistance = CalculateDistance(currentDistance, currentLinearSpeed);
             currentLinearSpeed = CalculateLinearSpeed();
             currentAngularSpeed = CalculateAngularSpeed(Math.Abs(currentDistance), currentLinearSpeed);
             currentPosition = CalculatePosition(currentDistance);
@@ -92,33 +92,35 @@ namespace nbot.actions
 
         private double CalculateLinearSpeed()
         {
-            if (speedometer.HasReachedMaxSpeed(currentLinearSpeed))
+            // Cannot go faster than the max speed
+            if (movementController.HasReachedMaxSpeed(currentLinearSpeed))
             {
                 return currentLinearSpeed;
             }
 
+            // If the object is steering linear speed is fixed
             if (steer != 0 && currentLinearSpeed != 0)
             {
                 return currentLinearSpeed;
             }
 
-            return speedometer.CalculateLinearSpeed(currentLinearSpeed);
+            return movementController.CalculateLinearSpeed(currentLinearSpeed);
         }
 
         private double CalculateAngularSpeed(double r, double linearSpeed)
         {
-            return speedometer.CalculateAngularSpeed(r, linearSpeed);
+            return movementController.CalculateAngularSpeed(r, linearSpeed);
         }
 
-        private double CalculateDistance()
+        private double CalculateDistance(double currentDistance, double currentLinearSpeed)
         {
-            // If we are turning keep distance fixed.
+            // If the object is turning keep distance fixed.
             if (steer != 0 && currentDistance != 0)
             {
                 return currentDistance;
             }
 
-            var distanceDelta = speedometer.CalculateDistance(currentLinearSpeed);
+            var distanceDelta = movementController.CalculateDistance(currentLinearSpeed);
 
             // Make sure we don't go further than value requested.
             var distanceNew = Math.Min(distanceDelta, Math.Abs(forward));
@@ -135,14 +137,15 @@ namespace nbot.actions
 
         private double CalculateDirection(double angularSpeed)
         {
+            // If not turning the direction is the same.
             if (steer == 0)
             {
                 return currentPosition.Direction;
             }
 
-            var directionDelta = speedometer.CalculateDirection(angularSpeed);
+            var directionDelta = movementController.CalculateDirection(angularSpeed);
 
-            // Make sure we don't go further than value requested.
+            // Make sure we don't go further than the value requested.
             directionDelta = Math.Min(directionDelta, Math.Abs(steer));
 
             if (steer < 0)
